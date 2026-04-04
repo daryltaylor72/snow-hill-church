@@ -203,67 +203,13 @@
             position: absolute;
             inset: 0;
             z-index: 0;
-            background:
-                radial-gradient(ellipse 120% 80% at 50% 20%,
-                    rgba(212, 175, 55, 0.25) 0%,
-                    transparent 60%
-                ),
-                radial-gradient(ellipse 80% 60% at 30% 70%,
-                    rgba(139, 90, 43, 0.15) 0%,
-                    transparent 50%
-                ),
-                radial-gradient(ellipse 90% 70% at 70% 40%,
-                    rgba(212, 175, 55, 0.1) 0%,
-                    transparent 55%
-                ),
-                linear-gradient(160deg,
-                    #1a1512 0%,
-                    #2c2420 25%,
-                    #3d2e24 45%,
-                    #2c2420 65%,
-                    #1a1512 100%
-                );
-        }
-
-        .hero-image-wrap::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background:
-                repeating-linear-gradient(
-                    90deg,
-                    transparent 0px,
-                    transparent 80px,
-                    rgba(212, 175, 55, 0.03) 80px,
-                    rgba(212, 175, 55, 0.03) 81px
-                ),
-                repeating-linear-gradient(
-                    0deg,
-                    transparent 0px,
-                    transparent 80px,
-                    rgba(212, 175, 55, 0.03) 80px,
-                    rgba(212, 175, 55, 0.03) 81px
-                );
-            animation: subtleShift 20s ease-in-out infinite;
-        }
-
-        @keyframes subtleShift {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
         }
 
         .hero-image-wrap img {
-            display: none;
-        }
-
-        .hero-image-wrap::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('images/church-hero.png') center center / cover no-repeat;
-            opacity: 0.12;
-            z-index: 0;
-            mix-blend-mode: luminosity;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
         }
 
         .hero-overlay {
@@ -271,9 +217,10 @@
             inset: 0;
             background:
                 linear-gradient(180deg,
-                    transparent 0%,
-                    transparent 60%,
-                    rgba(26, 21, 18, 0.6) 100%
+                    rgba(44, 36, 32, 0.35) 0%,
+                    rgba(44, 36, 32, 0.15) 40%,
+                    rgba(44, 36, 32, 0.25) 70%,
+                    rgba(44, 36, 32, 0.7) 100%
                 );
             z-index: 1;
         }
@@ -1193,7 +1140,9 @@
 
     <!-- ═══ HERO ═══ -->
     <section class="hero" id="home">
-        <div class="hero-image-wrap"></div>
+        <div class="hero-image-wrap">
+            <img src="images/church-hero.png" alt="Snow Hill Missionary Baptist Church — a beautiful brick church with a white steeple surrounded by trees in Roseboro, North Carolina" loading="eager">
+        </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <p class="hero-subtitle-top">Welcome Home</p>
