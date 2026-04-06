@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%232D2667'/><rect x='47' y='18' width='6' height='64' rx='3' fill='%23C9A84C'/><rect x='28' y='32' width='44' height='6' rx='3' fill='%23C9A84C'/></svg>">
     <style>
         :root {
             --brick-deep: #2D2667;
@@ -20,8 +21,8 @@
             --forest-light: #3E5A7A;
             --forest-pale: #E8ECF0;
             --steeple-white: #FFFFFF;
-            --gold: #7A6EC9;
-            --gold-light: #A49AE0;
+            --gold: #C9A84C;
+            --gold-light: #E0C47A;
             --charcoal: #1C2030;
             --warm-gray: #565E6B;
             --warm-gray-light: #868E9B;
@@ -977,6 +978,54 @@
         .form-status.success { background: #e8f5e9; color: #2e7d32; display: block; }
         .form-status.error { background: #fdecea; color: #c62828; display: block; }
 
+        /* ═══════════════════════════════════════
+           SOCIAL LINKS
+        ═══════════════════════════════════════ */
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+            border-color: var(--gold);
+        }
+
+        .contact-social {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--cream-dark);
+        }
+
+        .contact-social-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--brick);
+            margin-bottom: 0.75rem;
+        }
+
         /* placeholder — keep min-height reference intact */
         .contact-map-placeholder {
             min-height: 350px;
@@ -1441,6 +1490,13 @@
                             <p class="contact-item-value">Sunday School: 9:30 AM<br>Morning Worship: 11:00 AM<br>Wed Bible Study: 7:00 PM</p>
                         </div>
                     </div>
+
+                    <div class="contact-social">
+                        <p class="contact-social-label">Follow Us</p>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="social-link" aria-label="Facebook Group">f</a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="contact-form-wrap reveal reveal-delay-2">
@@ -1493,12 +1549,17 @@
             </div>
 
             <div>
-                <h4>Service Times</h4>
+                <h4>Connect</h4>
                 <ul class="footer-links">
+                    <li><a href="tel:9105254300">(910) 525-4300</a></li>
+                    <li><a href="mailto:info@snowhillmbc.com">info@snowhillmbc.com</a></li>
                     <li><a href="#services">Sun School — 9:30 AM</a></li>
                     <li><a href="#services">Worship — 11:00 AM</a></li>
                     <li><a href="#services">Wed Bible Study — 7:00 PM</a></li>
                 </ul>
+                <div class="social-links" style="margin-top:1.25rem">
+                    <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="social-link" aria-label="Facebook Group">f</a>
+                </div>
             </div>
         </div>
 
