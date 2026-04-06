@@ -203,14 +203,16 @@
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background:
-                linear-gradient(135deg,
-                    #1C2030 0%,
-                    #2D2667 40%,
-                    #3A35A0 70%,
-                    #1C2030 100%
-                );
+            background: linear-gradient(135deg, #1C2030, #2D2667, #3A35A0, #1C2030);
+            background-size: 400% 400%;
+            animation: heroGradientShift 12s ease infinite;
             z-index: 1;
+        }
+
+        @keyframes heroGradientShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .hero-content {
@@ -1259,6 +1261,198 @@
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ═══════════════════════════════════════
+           ENHANCED ANIMATIONS & HOVER EFFECTS
+        ═══════════════════════════════════════ */
+
+        /* Section divider animated draw-in */
+        .section-divider::before,
+        .section-divider::after {
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.6s ease 0.3s;
+        }
+        .visible .section-divider::before,
+        .visible .section-divider::after {
+            transform: scaleX(1);
+        }
+
+        /* Service cards — gradient glow + icon spin */
+        .service-card {
+            background: linear-gradient(160deg, var(--steeple-white) 0%, var(--cream) 100%);
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(45,38,103,0) 0%, rgba(45,38,103,0.04) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 4px;
+        }
+        .service-card:hover::after { opacity: 1; }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(45,38,103,0.18);
+        }
+        .service-card::before {
+            background: linear-gradient(90deg, var(--brick-deep), var(--gold), var(--brick-deep));
+            background-size: 200% 100%;
+            transition: background-position 0.5s ease;
+        }
+        .service-card:hover::before { background-position: right center; }
+        .service-card:hover .service-icon-cross::before,
+        .service-card:hover .service-icon-cross::after {
+            background: var(--gold);
+            transition: background 0.3s ease;
+        }
+
+        /* About values — gradient fill on hover */
+        .about-value {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-value::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(45,38,103,0.06), rgba(201,168,76,0.08));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .about-value:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(45,38,103,0.1);
+            border-left-color: var(--gold);
+        }
+        .about-value:hover::after { opacity: 1; }
+
+        /* Event items — gradient wash on hover */
+        .event-item {
+            transition: transform 0.3s ease, border-left-color 0.3s ease, background 0.4s ease, box-shadow 0.3s ease;
+        }
+        .event-item:hover {
+            transform: translateX(6px);
+            border-left-color: var(--gold);
+            background: linear-gradient(135deg, rgba(45,38,103,0.04), var(--cream));
+            box-shadow: 0 4px 20px rgba(45,38,103,0.08);
+        }
+        .event-item:hover .event-day-num {
+            color: var(--brick);
+            transition: color 0.3s ease;
+        }
+
+        /* Gallery — overlay on hover */
+        .gallery-item {
+            position: relative;
+        }
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(45,38,103,0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .gallery-item:hover::after { opacity: 1; }
+
+        /* Contact icons — pulse ring */
+        .contact-icon {
+            transition: transform 0.3s ease;
+        }
+        .contact-icon:hover {
+            transform: scale(1.1);
+        }
+        .contact-item:hover .contact-icon {
+            animation: pulseRing 0.6s ease;
+        }
+        @keyframes pulseRing {
+            0%   { box-shadow: 0 0 0 0 rgba(45,38,103,0.4); }
+            70%  { box-shadow: 0 0 0 10px rgba(45,38,103,0); }
+            100% { box-shadow: 0 0 0 0 rgba(45,38,103,0); }
+        }
+
+        /* CTA buttons — shimmer sweep */
+        .hero-cta, .gallery-cta a, .form-submit {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-cta::after, .gallery-cta a::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .hero-cta:hover::after, .gallery-cta a:hover::after { left: 150%; }
+
+        /* Facebook Live badge — live pulse dot */
+        .fb-live-badge {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .fb-live-badge::before {
+            content: '';
+            position: absolute;
+            left: 0.6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 7px;
+            height: 7px;
+            background: #ff4444;
+            border-radius: 50%;
+            animation: livePulse 1.5s ease-in-out infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+            50%       { opacity: 0.5; transform: translateY(-50%) scale(1.4); }
+        }
+
+        /* Verse banner subtle gradient animation */
+        .about-verse-banner {
+            background: linear-gradient(135deg, #1C2030, #2D2667, #2D3E5A);
+            background-size: 300% 300%;
+            animation: verseBannerShift 10s ease infinite;
+        }
+        @keyframes verseBannerShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pastor section — subtle floating circles */
+        .pastor::before {
+            animation: floatCircle 8s ease-in-out infinite;
+        }
+        .pastor::after {
+            animation: floatCircle 12s ease-in-out infinite reverse;
+        }
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0, 0); }
+            50%       { transform: translate(20px, -20px); }
+        }
+
+        /* Social link hover spin */
+        .social-link {
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+        .social-link:hover {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        /* Nav link hover — color shift */
+        .nav-links a {
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+        }
+        .nav-links a:hover {
+            letter-spacing: 0.1em;
+        }
 
         /* ═══════════════════════════════════════
            RESPONSIVE
