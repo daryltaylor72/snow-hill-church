@@ -904,6 +904,109 @@
         }
 
         /* ═══════════════════════════════════════
+           CONTACT FORM
+        ═══════════════════════════════════════ */
+        .contact-form-wrap {
+            background: var(--white);
+            border-radius: 4px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px var(--shadow-warm);
+        }
+
+        .contact-form-wrap h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--brick);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-family: 'Lora', serif;
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            background: var(--cream);
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--brick);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--brick-deep);
+            color: var(--cream);
+            border: none;
+            border-radius: 3px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .form-submit:hover {
+            background: var(--brick);
+        }
+
+        .form-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .form-status {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 3px;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .form-status.success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            display: block;
+        }
+
+        .form-status.error {
+            background: #fdecea;
+            color: #c62828;
+            display: block;
+        }
+
+        /* ═══════════════════════════════════════
            FOOTER
         ═══════════════════════════════════════ */
         .footer {
@@ -1376,7 +1479,7 @@
                         <div class="contact-icon">&#9993;</div>
                         <div>
                             <p class="contact-item-label">Email</p>
-                            <p class="contact-item-value">info@snowhillmbc.org</p>
+                            <p class="contact-item-value"><a href="mailto:info@snowhillmbc.com" style="color:inherit">info@snowhillmbc.com</a></p>
                         </div>
                     </div>
 
@@ -1389,14 +1492,28 @@
                     </div>
                 </div>
 
-                <div class="contact-map reveal reveal-delay-2">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13000!2d-78.5!3d34.95!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDU3JzAwLjAiTiA3OMKwMzAnMDAuMCJX!5e0!3m2!1sen!2sus!4v1"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        title="Snow Hill Missionary Baptist Church location">
-                    </iframe>
+                <div class="contact-form-wrap reveal reveal-delay-2">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="cf-name">Your Name</label>
+                            <input type="text" id="cf-name" name="name" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-email">Email Address</label>
+                            <input type="email" id="cf-email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-subject">Subject</label>
+                            <input type="text" id="cf-subject" name="subject" placeholder="How can we help?">
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-message">Message</label>
+                            <textarea id="cf-message" name="message" required placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit" id="cf-submit">Send Message</button>
+                        <div class="form-status" id="cf-status"></div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1477,6 +1594,43 @@
         });
 
         revealElements.forEach(el => revealObserver.observe(el));
+
+        // Contact form
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('cf-submit');
+            const status = document.getElementById('cf-status');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            status.className = 'form-status';
+            status.textContent = '';
+
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('cf-name').value,
+                        email: document.getElementById('cf-email').value,
+                        subject: document.getElementById('cf-subject').value,
+                        message: document.getElementById('cf-message').value
+                    })
+                });
+                if (res.ok) {
+                    status.className = 'form-status success';
+                    status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
+                    e.target.reset();
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch {
+                status.className = 'form-status error';
+                status.textContent = 'Something went wrong. Please try emailing us directly at info@snowhillmbc.com.';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
+            }
+        });
     </script>
 </body>
 </html>
