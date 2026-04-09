@@ -1936,10 +1936,10 @@
             </div>
 
             <div class="events-list">
-                <div class="event-item reveal reveal-delay-1">
+                <div class="event-item reveal reveal-delay-1" data-weekday="0">
                     <div class="event-date">
-                        <p class="event-month">Apr</p>
-                        <p class="event-day-num">6</p>
+                        <p class="event-month"></p>
+                        <p class="event-day-num"></p>
                     </div>
                     <div class="event-details">
                         <h3>Sunday Worship Service</h3>
@@ -1948,10 +1948,10 @@
                     <span class="event-time-badge">11:00 AM</span>
                 </div>
 
-                <div class="event-item reveal reveal-delay-2">
+                <div class="event-item reveal reveal-delay-2" data-weekday="1">
                     <div class="event-date">
-                        <p class="event-month">Every</p>
-                        <p class="event-day-num" style="font-size:1.1rem;">Mon</p>
+                        <p class="event-month"></p>
+                        <p class="event-day-num"></p>
                     </div>
                     <div class="event-details">
                         <h3>Monday Night Prayer</h3>
@@ -1960,10 +1960,10 @@
                     <span class="event-time-badge">6:30 – 7:00 PM</span>
                 </div>
 
-                <div class="event-item reveal reveal-delay-3">
+                <div class="event-item reveal reveal-delay-3" data-weekday="3">
                     <div class="event-date">
-                        <p class="event-month">Every</p>
-                        <p class="event-day-num" style="font-size:1.1rem;">Wed</p>
+                        <p class="event-month"></p>
+                        <p class="event-day-num"></p>
                     </div>
                     <div class="event-details">
                         <h3>Wednesday Outreach Class</h3>
@@ -1972,10 +1972,10 @@
                     <span class="event-time-badge">6:30 – 7:00 PM</span>
                 </div>
 
-                <div class="event-item reveal reveal-delay-4">
+                <div class="event-item reveal reveal-delay-4" data-weekday="3">
                     <div class="event-date">
-                        <p class="event-month">Every</p>
-                        <p class="event-day-num" style="font-size:1.1rem;">Wed</p>
+                        <p class="event-month"></p>
+                        <p class="event-day-num"></p>
                     </div>
                     <div class="event-details">
                         <h3>Wednesday Night Bible Study</h3>
@@ -2235,6 +2235,27 @@
                 btn.disabled = false;
                 btn.textContent = 'Send Message';
             }
+        });
+    </script>
+
+    <script>
+        // Auto-update recurring event dates to show next upcoming occurrence
+        const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        function nextWeekday(targetDay) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const diff = (targetDay - today.getDay() + 7) % 7 || 7;
+            const next = new Date(today);
+            next.setDate(today.getDate() + diff);
+            return next;
+        }
+
+        document.querySelectorAll('.event-item[data-weekday]').forEach(function(item) {
+            const day = parseInt(item.getAttribute('data-weekday'), 10);
+            const date = nextWeekday(day);
+            item.querySelector('.event-month').textContent = MONTHS[date.getMonth()];
+            item.querySelector('.event-day-num').textContent = date.getDate();
         });
     </script>
 </body>
