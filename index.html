@@ -744,12 +744,37 @@
             color: var(--cream);
         }
 
-        .pastor-content {
-            max-width: 800px;
+        .pastor-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1000px;
             margin: 0 auto;
+        }
+
+        .pastor-photo {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        }
+
+        .pastor-photo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .pastor-content {
             text-align: center;
             position: relative;
             z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .pastor-layout {
+                grid-template-columns: 1fr;
+            }
         }
 
         .pastor-quote-mark {
@@ -905,8 +930,7 @@
         }
 
         .gallery-item:first-child img {
-            object-fit: contain;
-            background: #1a1a2e;
+            object-position: top center;
         }
 
         .gallery-item img {
@@ -1883,14 +1907,19 @@
                 </div>
             </div>
 
-            <div class="pastor-content reveal">
-                <div class="pastor-quote-mark">&ldquo;</div>
-                <p class="pastor-message">
-                    On behalf of the entire Snow Hill Missionary Baptist Church family, I want to extend a warm and heartfelt welcome to you. Whether you are looking for a new church home, seeking to grow in your faith, or simply curious about who we are — our doors and our hearts are open to you.<br><br>
-                    At Snow Hill, we believe that God has a purpose for every life and a plan for every soul. We are here to walk alongside you on your journey, to lift you up in prayer, and to celebrate the goodness of God together. Come as you are. You are loved, you are welcome, and you belong.
-                </p>
-                <p class="pastor-name">The Pastor &amp; First Family</p>
-                <p class="pastor-title">Snow Hill Missionary Baptist Church</p>
+            <div class="pastor-layout reveal">
+                <div class="pastor-photo">
+                    <img src="images/gallery/community-1.jpg" alt="Pastor & First Family — Snow Hill MBC">
+                </div>
+                <div class="pastor-content">
+                    <div class="pastor-quote-mark">&ldquo;</div>
+                    <p class="pastor-message">
+                        On behalf of the entire Snow Hill Missionary Baptist Church family, I want to extend a warm and heartfelt welcome to you. Whether you are looking for a new church home, seeking to grow in your faith, or simply curious about who we are — our doors and our hearts are open to you.<br><br>
+                        At Snow Hill, we believe that God has a purpose for every life and a plan for every soul. We are here to walk alongside you on your journey, to lift you up in prayer, and to celebrate the goodness of God together. Come as you are. You are loved, you are welcome, and you belong.
+                    </p>
+                    <p class="pastor-name">The Pastor &amp; First Family</p>
+                    <p class="pastor-title">Snow Hill Missionary Baptist Church</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1948,9 +1977,6 @@
 
             <div class="gallery-grid">
                 <div class="gallery-item reveal">
-                    <img src="images/gallery/community-1.jpg" alt="Snow Hill MBC community">
-                </div>
-                <div class="gallery-item reveal reveal-delay-1">
                     <img src="images/gallery/community-2.jpg" alt="Snow Hill MBC community">
                 </div>
                 <div class="gallery-item reveal reveal-delay-2">
