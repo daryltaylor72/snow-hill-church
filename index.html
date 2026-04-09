@@ -2338,42 +2338,45 @@
             });
         });
 
-        // Contact form
-        document.getElementById('contactForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('cf-submit');
-            const status = document.getElementById('cf-status');
-            btn.disabled = true;
-            btn.textContent = 'Sending...';
-            status.className = 'form-status';
-            status.textContent = '';
-
-            try {
-                const res = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: document.getElementById('cf-name').value,
-                        email: document.getElementById('cf-email').value,
-                        subject: document.getElementById('cf-subject').value,
-                        message: document.getElementById('cf-message').value
-                    })
-                });
-                if (res.ok) {
-                    status.className = 'form-status success';
-                    status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
-                    e.target.reset();
-                } else {
-                    throw new Error('Server error');
+        // Contact form — isolated so other JS errors can't break it
+        (function() {
+            var form = document.getElementById('contactForm');
+            if (!form) return;
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                var btn = document.getElementById('cf-submit');
+                var status = document.getElementById('cf-status');
+                btn.disabled = true;
+                btn.textContent = 'Sending...';
+                status.className = 'form-status';
+                status.textContent = '';
+                try {
+                    var res = await fetch('/api/contact', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            name: document.getElementById('cf-name').value,
+                            email: document.getElementById('cf-email').value,
+                            subject: document.getElementById('cf-subject').value,
+                            message: document.getElementById('cf-message').value
+                        })
+                    });
+                    if (res.ok) {
+                        status.className = 'form-status success';
+                        status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
+                        form.reset();
+                    } else {
+                        throw new Error('Server error');
+                    }
+                } catch (err) {
+                    status.className = 'form-status error';
+                    status.textContent = 'Something went wrong. Please try emailing us directly at info@snowhillmbc.com.';
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Send Message';
                 }
-            } catch {
-                status.className = 'form-status error';
-                status.textContent = 'Something went wrong. Please try emailing us directly at info@snowhillmbc.com.';
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Send Message';
-            }
-        });
+            });
+        })();
     </script>
 
     <script>
