@@ -8,25 +8,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%232D2667'/><rect x='47' y='18' width='6' height='64' rx='3' fill='%23C9A84C'/><rect x='28' y='32' width='44' height='6' rx='3' fill='%23C9A84C'/></svg>">
     <style>
         :root {
-            --brick-deep: #7B2D26;
-            --brick: #A0413A;
-            --brick-light: #C4635B;
-            --cream: #FFF8F0;
-            --cream-warm: #F5EBE0;
-            --cream-dark: #E8DDD3;
-            --forest: #2D5A3D;
-            --forest-light: #3E7A52;
-            --forest-pale: #E8F0EB;
+            --brick-deep: #2D2667;
+            --brick: #3A35A0;
+            --brick-light: #5B5BC4;
+            --cream: #F0F2FF;
+            --cream-warm: #E6E8F5;
+            --cream-dark: #D6D9E8;
+            --forest: #2D3E5A;
+            --forest-light: #3E5A7A;
+            --forest-pale: #E8ECF0;
             --steeple-white: #FFFFFF;
-            --gold: #C9A96E;
-            --gold-light: #E0CB9A;
-            --charcoal: #2C2420;
-            --warm-gray: #6B5E56;
-            --warm-gray-light: #9B8E86;
-            --text-body: #3D3330;
-            --shadow-warm: rgba(123, 45, 38, 0.12);
+            --gold: #C9A84C;
+            --gold-light: #E0C47A;
+            --charcoal: #1C2030;
+            --warm-gray: #565E6B;
+            --warm-gray-light: #868E9B;
+            --text-body: #2A2D3D;
+            --shadow-warm: rgba(45, 38, 103, 0.12);
         }
 
         * {
@@ -65,7 +66,7 @@
         }
 
         .nav.scrolled {
-            background: rgba(255, 248, 240, 0.97);
+            background: rgba(240, 242, 255, 0.97);
             backdrop-filter: blur(12px);
             box-shadow: 0 2px 20px var(--shadow-warm);
             padding: 0.7rem 2rem;
@@ -199,30 +200,19 @@
             overflow: hidden;
         }
 
-        .hero-image-wrap {
-            position: absolute;
-            inset: 0;
-            z-index: 0;
-        }
-
-        .hero-image-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center 30%;
-        }
-
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background:
-                linear-gradient(180deg,
-                    rgba(44, 36, 32, 0.35) 0%,
-                    rgba(44, 36, 32, 0.15) 40%,
-                    rgba(44, 36, 32, 0.25) 70%,
-                    rgba(44, 36, 32, 0.7) 100%
-                );
+            background: linear-gradient(135deg, #1C2030, #2D2667, #3A35A0, #1C2030);
+            background-size: 400% 400%;
+            animation: heroGradientShift 12s ease infinite;
             z-index: 1;
+        }
+
+        @keyframes heroGradientShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .hero-content {
@@ -271,6 +261,18 @@
             animation: fadeUp 1s 0.7s forwards;
         }
 
+        .hero-motto {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            letter-spacing: 0.08em;
+            color: var(--gold-light);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1s 0.85s forwards;
+        }
+
         .hero-divider {
             width: 60px;
             height: 2px;
@@ -313,6 +315,25 @@
         .hero-cta:hover {
             background: var(--gold);
             color: var(--charcoal);
+        }
+
+        .hero-visit-link {
+            display: inline-block;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+            opacity: 0;
+            animation: fadeUp 1s 1.3s forwards;
+        }
+
+        .hero-visit-link:hover {
+            color: var(--gold);
         }
 
         .hero-scroll {
@@ -557,8 +578,8 @@
             right: 0;
             bottom: 0;
             background:
-                radial-gradient(circle at 20% 50%, rgba(123, 45, 38, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 50%, rgba(45, 90, 61, 0.03) 0%, transparent 50%);
+                radial-gradient(circle at 20% 50%, rgba(45, 38, 103, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(45, 62, 90, 0.03) 0%, transparent 50%);
             pointer-events: none;
         }
 
@@ -664,6 +685,25 @@
             color: var(--warm-gray);
         }
 
+        .fb-live-badge {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.4rem 0.85rem;
+            background: #1877F2;
+            color: #fff;
+            border-radius: 20px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .fb-live-badge:hover {
+            background: #0e5fc1;
+        }
+
         /* ═══════════════════════════════════════
            PASTOR'S MESSAGE
         ═══════════════════════════════════════ */
@@ -681,7 +721,7 @@
             right: -100px;
             width: 400px;
             height: 400px;
-            border: 1px solid rgba(201, 169, 110, 0.1);
+            border: 1px solid rgba(122, 110, 201, 0.1);
             border-radius: 50%;
         }
 
@@ -692,7 +732,7 @@
             left: -150px;
             width: 500px;
             height: 500px;
-            border: 1px solid rgba(201, 169, 110, 0.08);
+            border: 1px solid rgba(122, 110, 201, 0.08);
             border-radius: 50%;
         }
 
@@ -828,6 +868,89 @@
         }
 
         /* ═══════════════════════════════════════
+           GALLERY
+        ═══════════════════════════════════════ */
+        .gallery {
+            background: var(--charcoal);
+            padding: 6rem 2rem;
+        }
+
+        .gallery .section-label {
+            color: var(--gold);
+        }
+
+        .gallery .section-title {
+            color: var(--steeple-white);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: auto auto;
+            gap: 0.75rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 3px;
+            aspect-ratio: 4/3;
+            cursor: pointer;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            aspect-ratio: 16/9;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.04);
+        }
+
+        .gallery-cta {
+            text-align: center;
+            margin-top: 2.5rem;
+        }
+
+        .gallery-cta a {
+            display: inline-block;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--steeple-white);
+            border: 1px solid rgba(201, 168, 76, 0.5);
+            padding: 0.9rem 2.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .gallery-cta a:hover {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--charcoal);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-item:first-child {
+                grid-column: span 2;
+            }
+        }
+
+        /* ═══════════════════════════════════════
            CONTACT
         ═══════════════════════════════════════ */
         .contact {
@@ -899,6 +1022,147 @@
         .contact-map iframe {
             width: 100%;
             height: 100%;
+            min-height: 350px;
+        }
+
+        /* ═══════════════════════════════════════
+           CONTACT FORM
+        ═══════════════════════════════════════ */
+        .contact-form-wrap {
+            background: var(--steeple-white);
+            border-radius: 4px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px var(--shadow-warm);
+        }
+
+        .contact-form-wrap h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--brick);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-family: 'Lora', serif;
+            font-size: 0.95rem;
+            color: var(--charcoal);
+            background: var(--cream);
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--brick);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--brick-deep);
+            color: var(--steeple-white);
+            border: none;
+            border-radius: 3px;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .form-submit:hover { background: var(--brick); }
+        .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .form-status {
+            margin-top: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 3px;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .form-status.success { background: #e8f5e9; color: #2e7d32; display: block; }
+        .form-status.error { background: #fdecea; color: #c62828; display: block; }
+
+        /* ═══════════════════════════════════════
+           SOCIAL LINKS
+        ═══════════════════════════════════════ */
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(201, 168, 76, 0.15);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: var(--gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--gold);
+            color: var(--charcoal);
+            border-color: var(--gold);
+        }
+
+        .contact-social {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--cream-dark);
+        }
+
+        .contact-social-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--brick);
+            margin-bottom: 0.75rem;
+        }
+
+        /* placeholder — keep min-height reference intact */
+        .contact-map-placeholder {
             min-height: 350px;
             border: 0;
         }
@@ -977,7 +1241,7 @@
         }
 
         .footer-bottom {
-            border-top: 1px solid rgba(201, 169, 110, 0.15);
+            border-top: 1px solid rgba(122, 110, 201, 0.15);
             padding-top: 2rem;
             max-width: 1200px;
             margin: 0 auto;
@@ -1016,6 +1280,198 @@
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ═══════════════════════════════════════
+           ENHANCED ANIMATIONS & HOVER EFFECTS
+        ═══════════════════════════════════════ */
+
+        /* Section divider animated draw-in */
+        .section-divider::before,
+        .section-divider::after {
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.6s ease 0.3s;
+        }
+        .visible .section-divider::before,
+        .visible .section-divider::after {
+            transform: scaleX(1);
+        }
+
+        /* Service cards — gradient glow + icon spin */
+        .service-card {
+            background: linear-gradient(160deg, var(--steeple-white) 0%, var(--cream) 100%);
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(160deg, rgba(45,38,103,0) 0%, rgba(45,38,103,0.04) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            border-radius: 4px;
+        }
+        .service-card:hover::after { opacity: 1; }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(45,38,103,0.18);
+        }
+        .service-card::before {
+            background: linear-gradient(90deg, var(--brick-deep), var(--gold), var(--brick-deep));
+            background-size: 200% 100%;
+            transition: background-position 0.5s ease;
+        }
+        .service-card:hover::before { background-position: right center; }
+        .service-card:hover .service-icon-cross::before,
+        .service-card:hover .service-icon-cross::after {
+            background: var(--gold);
+            transition: background 0.3s ease;
+        }
+
+        /* About values — gradient fill on hover */
+        .about-value {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .about-value::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(45,38,103,0.06), rgba(201,168,76,0.08));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .about-value:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(45,38,103,0.1);
+            border-left-color: var(--gold);
+        }
+        .about-value:hover::after { opacity: 1; }
+
+        /* Event items — gradient wash on hover */
+        .event-item {
+            transition: transform 0.3s ease, border-left-color 0.3s ease, background 0.4s ease, box-shadow 0.3s ease;
+        }
+        .event-item:hover {
+            transform: translateX(6px);
+            border-left-color: var(--gold);
+            background: linear-gradient(135deg, rgba(45,38,103,0.04), var(--cream));
+            box-shadow: 0 4px 20px rgba(45,38,103,0.08);
+        }
+        .event-item:hover .event-day-num {
+            color: var(--brick);
+            transition: color 0.3s ease;
+        }
+
+        /* Gallery — overlay on hover */
+        .gallery-item {
+            position: relative;
+        }
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(45,38,103,0.7) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .gallery-item:hover::after { opacity: 1; }
+
+        /* Contact icons — pulse ring */
+        .contact-icon {
+            transition: transform 0.3s ease;
+        }
+        .contact-icon:hover {
+            transform: scale(1.1);
+        }
+        .contact-item:hover .contact-icon {
+            animation: pulseRing 0.6s ease;
+        }
+        @keyframes pulseRing {
+            0%   { box-shadow: 0 0 0 0 rgba(45,38,103,0.4); }
+            70%  { box-shadow: 0 0 0 10px rgba(45,38,103,0); }
+            100% { box-shadow: 0 0 0 0 rgba(45,38,103,0); }
+        }
+
+        /* CTA buttons — shimmer sweep */
+        .hero-cta, .gallery-cta a, .form-submit {
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-cta::after, .gallery-cta a::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.5s ease;
+        }
+        .hero-cta:hover::after, .gallery-cta a:hover::after { left: 150%; }
+
+        /* Facebook Live badge — live pulse dot */
+        .fb-live-badge {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        .fb-live-badge::before {
+            content: '';
+            position: absolute;
+            left: 0.6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 7px;
+            height: 7px;
+            background: #ff4444;
+            border-radius: 50%;
+            animation: livePulse 1.5s ease-in-out infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: translateY(-50%) scale(1); }
+            50%       { opacity: 0.5; transform: translateY(-50%) scale(1.4); }
+        }
+
+        /* Verse banner subtle gradient animation */
+        .about-verse-banner {
+            background: linear-gradient(135deg, #1C2030, #2D2667, #2D3E5A);
+            background-size: 300% 300%;
+            animation: verseBannerShift 10s ease infinite;
+        }
+        @keyframes verseBannerShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pastor section — subtle floating circles */
+        .pastor::before {
+            animation: floatCircle 8s ease-in-out infinite;
+        }
+        .pastor::after {
+            animation: floatCircle 12s ease-in-out infinite reverse;
+        }
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0, 0); }
+            50%       { transform: translate(20px, -20px); }
+        }
+
+        /* Social link hover spin */
+        .social-link {
+            transition: all 0.3s ease, transform 0.3s ease;
+        }
+        .social-link:hover {
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        /* Nav link hover — color shift */
+        .nav-links a {
+            transition: color 0.3s ease, letter-spacing 0.3s ease;
+        }
+        .nav-links a:hover {
+            letter-spacing: 0.1em;
+        }
 
         /* ═══════════════════════════════════════
            RESPONSIVE
@@ -1059,7 +1515,7 @@
                 top: 100%;
                 left: 0;
                 right: 0;
-                background: rgba(255, 248, 240, 0.98);
+                background: rgba(240, 242, 255, 0.98);
                 backdrop-filter: blur(12px);
                 flex-direction: column;
                 padding: 2rem;
@@ -1114,6 +1570,129 @@
                 justify-self: center;
             }
         }
+        /* ═══════════════════════════════════════
+           CSS 3D TRANSFORMS
+        ═══════════════════════════════════════ */
+
+        /* Service cards — mouse-follow 3D tilt (applied via JS) */
+        .services-grid {
+            perspective: 1200px;
+        }
+        .service-card {
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        /* About values — 3D flip card */
+        .about-values {
+            perspective: 800px;
+        }
+        .about-value {
+            transform-style: preserve-3d;
+            position: relative;
+            min-height: 110px;
+            cursor: pointer;
+        }
+        .about-value-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 110px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+        }
+        .about-value:hover .about-value-inner {
+            transform: rotateY(180deg);
+        }
+        .about-value-front,
+        .about-value-back {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            padding: 1.5rem;
+            border-radius: 2px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .about-value-front {
+            background: var(--cream);
+        }
+        .about-value-back {
+            background: linear-gradient(135deg, var(--brick-deep), var(--brick));
+            transform: rotateY(180deg);
+            text-align: center;
+        }
+        .about-value-back p {
+            font-family: 'Lora', serif;
+            font-style: italic;
+            font-size: 0.85rem !important;
+            line-height: 1.6 !important;
+            color: var(--cream-warm) !important;
+            margin-bottom: 0.5rem !important;
+        }
+        .about-value-back cite {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.75rem;
+            color: var(--gold-light);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-style: normal;
+        }
+
+        /* Gallery — 3D perspective tilt on hover */
+        .gallery-grid {
+            perspective: 1000px;
+        }
+        .gallery-item {
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .gallery-item:hover {
+            transform: rotateX(3deg) rotateY(-3deg) scale(1.03);
+            box-shadow: 8px 12px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Event items — 3D depth lift */
+        .event-item {
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, border-left-color 0.3s ease, background 0.4s ease, box-shadow 0.3s ease;
+        }
+        .event-item:hover {
+            transform: translateX(6px) translateZ(8px) rotateX(1deg);
+        }
+
+        /* Hero CTA — 3D press on click */
+        .hero-cta:active {
+            transform: translateY(2px) scale(0.97);
+            transition: transform 0.1s ease;
+        }
+
+        /* Contact form — 3D lift on focus-within */
+        .contact-form-wrap {
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transform-style: preserve-3d;
+        }
+        .contact-form-wrap:focus-within {
+            transform: translateY(-4px) rotateX(1deg);
+            box-shadow: 0 20px 50px rgba(45,38,103,0.15);
+        }
+
+        /* Pastor quote mark — 3D depth */
+        .pastor-quote-mark {
+            transform: translateZ(20px);
+            display: inline-block;
+        }
+
+        /* Footer brand — subtle 3D tilt on hover */
+        .footer-brand {
+            transition: transform 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .footer-brand:hover {
+            transform: rotateY(-5deg) translateZ(5px);
+        }
     </style>
 </head>
 <body>
@@ -1129,6 +1708,7 @@
             <li><a href="#services">Services</a></li>
             <li><a href="#pastor">Pastor</a></li>
             <li><a href="#events">Events</a></li>
+            <li><a href="#gallery">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
@@ -1140,17 +1720,16 @@
 
     <!-- ═══ HERO ═══ -->
     <section class="hero" id="home">
-        <div class="hero-image-wrap">
-            <img src="images/church-hero.png" alt="Snow Hill Missionary Baptist Church — a beautiful brick church with a white steeple surrounded by trees in Roseboro, North Carolina" loading="eager">
-        </div>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <p class="hero-subtitle-top">Welcome Home</p>
             <h1 class="hero-title">Snow Hill Missionary<br>Baptist Church</h1>
             <p class="hero-location">Roseboro, North Carolina</p>
+            <p class="hero-motto">"Adjust my life to Him" — Luke 9:23–24</p>
             <div class="hero-divider"></div>
-            <p class="hero-verse">"Adjust my life to Him"<br>— Luke 9:23–24</p>
+            <p class="hero-verse">"As for me and my household,<br>we will serve the Lord."<br>— Joshua 24:15</p>
             <a href="#services" class="hero-cta">Join Us This Sunday</a>
+            <a href="#about" class="hero-visit-link">New Here? Plan Your Visit →</a>
         </div>
         <div class="hero-scroll">
             <div class="hero-scroll-line"></div>
@@ -1175,27 +1754,59 @@
 
                     <div class="about-values">
                         <div class="about-value reveal reveal-delay-1">
-                            <h4>Faith</h4>
-                            <p>Grounded in Scripture, guided by the Holy Spirit</p>
+                            <div class="about-value-inner">
+                                <div class="about-value-front">
+                                    <h4>Faith</h4>
+                                    <p>Grounded in Scripture, guided by the Holy Spirit</p>
+                                </div>
+                                <div class="about-value-back">
+                                    <p>"Faith is the substance of things hoped for, the evidence of things not seen."</p>
+                                    <cite>Hebrews 11:1</cite>
+                                </div>
+                            </div>
                         </div>
                         <div class="about-value reveal reveal-delay-2">
-                            <h4>Fellowship</h4>
-                            <p>A family united in love and service</p>
+                            <div class="about-value-inner">
+                                <div class="about-value-front">
+                                    <h4>Fellowship</h4>
+                                    <p>A family united in love and service</p>
+                                </div>
+                                <div class="about-value-back">
+                                    <p>"As iron sharpens iron, so one person sharpens another."</p>
+                                    <cite>Proverbs 27:17</cite>
+                                </div>
+                            </div>
                         </div>
                         <div class="about-value reveal reveal-delay-3">
-                            <h4>Service</h4>
-                            <p>Serving our community with Christ's compassion</p>
+                            <div class="about-value-inner">
+                                <div class="about-value-front">
+                                    <h4>Service</h4>
+                                    <p>Serving our community with Christ's compassion</p>
+                                </div>
+                                <div class="about-value-back">
+                                    <p>"Serve one another humbly in love."</p>
+                                    <cite>Galatians 5:13</cite>
+                                </div>
+                            </div>
                         </div>
                         <div class="about-value reveal reveal-delay-4">
-                            <h4>Growth</h4>
-                            <p>Growing deeper in faith, reaching further in love</p>
+                            <div class="about-value-inner">
+                                <div class="about-value-front">
+                                    <h4>Growth</h4>
+                                    <p>Growing deeper in faith, reaching further in love</p>
+                                </div>
+                                <div class="about-value-back">
+                                    <p>"Grow in the grace and knowledge of our Lord and Savior Jesus Christ."</p>
+                                    <cite>2 Peter 3:18</cite>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="about-image-side reveal">
                     <div class="about-image-frame">
-                        <img src="images/church-hero.png" alt="Snow Hill Missionary Baptist Church building">
+                        <img src="images/church-building.jpg" alt="Snow Hill Missionary Baptist Church building">
                     </div>
                 </div>
             </div>
@@ -1240,6 +1851,7 @@
                     <h3 class="service-name">Morning Worship</h3>
                     <p class="service-time">11:00 AM</p>
                     <p class="service-desc">Our main worship service with praise, prayer, and the preaching of God's Word.</p>
+                    <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="fb-live-badge">&#128247; Facebook Live — 11:45 AM</a>
                 </div>
 
                 <div class="service-card reveal reveal-delay-3">
@@ -1248,7 +1860,7 @@
                     </div>
                     <p class="service-day">Wednesday</p>
                     <h3 class="service-name">Bible Study</h3>
-                    <p class="service-time">7:00 PM</p>
+                    <p class="service-time">6:30 PM</p>
                     <p class="service-desc">Midweek study and prayer — dive deeper into Scripture with your church family.</p>
                 </div>
             </div>
@@ -1311,32 +1923,44 @@
                         <h3>Wednesday Night Bible Study</h3>
                         <p>Continuing our series on the Book of James — faith in action.</p>
                     </div>
-                    <span class="event-time-badge">7:00 PM</span>
+                    <span class="event-time-badge">6:30 PM</span>
                 </div>
 
-                <div class="event-item reveal reveal-delay-3">
-                    <div class="event-date">
-                        <p class="event-month">Apr</p>
-                        <p class="event-day-num">13</p>
-                    </div>
-                    <div class="event-details">
-                        <h3>Palm Sunday Celebration</h3>
-                        <p>A special worship service marking Jesus' triumphal entry into Jerusalem.</p>
-                    </div>
-                    <span class="event-time-badge">11:00 AM</span>
-                </div>
+            </div>
+        </div>
+    </section>
 
-                <div class="event-item reveal reveal-delay-4">
-                    <div class="event-date">
-                        <p class="event-month">Apr</p>
-                        <p class="event-day-num">20</p>
-                    </div>
-                    <div class="event-details">
-                        <h3>Easter Sunday — Resurrection Day</h3>
-                        <p>Celebrate the risen Savior! Special music, message, and fellowship meal after service.</p>
-                    </div>
-                    <span class="event-time-badge">11:00 AM</span>
+    <!-- ═══ GALLERY ═══ -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-label">Our Community</p>
+                <h2 class="section-title">Life at Snow Hill</h2>
+                <div class="section-divider">
+                    <div class="section-divider-cross"></div>
                 </div>
+            </div>
+
+            <div class="gallery-grid">
+                <div class="gallery-item reveal">
+                    <img src="images/gallery/community-1.jpg" alt="Snow Hill MBC community">
+                </div>
+                <div class="gallery-item reveal reveal-delay-1">
+                    <img src="images/gallery/community-2.jpg" alt="Snow Hill MBC community">
+                </div>
+                <div class="gallery-item reveal reveal-delay-2">
+                    <img src="images/gallery/community-3.jpg" alt="Snow Hill MBC community">
+                </div>
+                <div class="gallery-item reveal reveal-delay-3">
+                    <img src="images/gallery/community-4.jpg" alt="Snow Hill MBC community">
+                </div>
+                <div class="gallery-item reveal reveal-delay-4">
+                    <img src="images/gallery/community-5.jpg" alt="Snow Hill MBC community">
+                </div>
+            </div>
+
+            <div class="gallery-cta reveal">
+                <a href="https://www.facebook.com/groups/137597172940164/media" target="_blank" rel="noopener">See More Photos on Facebook</a>
             </div>
         </div>
     </section>
@@ -1376,7 +2000,7 @@
                         <div class="contact-icon">&#9993;</div>
                         <div>
                             <p class="contact-item-label">Email</p>
-                            <p class="contact-item-value">info@snowhillmbc.org</p>
+                            <p class="contact-item-value"><a href="mailto:info@snowhillmbc.com" style="color:inherit">info@snowhillmbc.com</a></p>
                         </div>
                     </div>
 
@@ -1384,19 +2008,40 @@
                         <div class="contact-icon">&#128337;</div>
                         <div>
                             <p class="contact-item-label">Service Hours</p>
-                            <p class="contact-item-value">Sunday School: 9:30 AM<br>Morning Worship: 11:00 AM<br>Wed Bible Study: 7:00 PM</p>
+                            <p class="contact-item-value">Sunday School: 9:30 AM<br>Morning Worship: 11:00 AM<br>Wed Bible Study: 6:30 PM</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-social">
+                        <p class="contact-social-label">Follow Us</p>
+                        <div class="social-links">
+                            <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="social-link" aria-label="Facebook Group">f</a>
                         </div>
                     </div>
                 </div>
 
-                <div class="contact-map reveal reveal-delay-2">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13000!2d-78.5!3d34.95!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDU3JzAwLjAiTiA3OMKwMzAnMDAuMCJX!5e0!3m2!1sen!2sus!4v1"
-                        allowfullscreen=""
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        title="Snow Hill Missionary Baptist Church location">
-                    </iframe>
+                <div class="contact-form-wrap reveal reveal-delay-2">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="cf-name">Your Name</label>
+                            <input type="text" id="cf-name" name="name" required placeholder="Full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-email">Email Address</label>
+                            <input type="email" id="cf-email" name="email" required placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-subject">Subject</label>
+                            <input type="text" id="cf-subject" name="subject" placeholder="How can we help?">
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-message">Message</label>
+                            <textarea id="cf-message" name="message" required placeholder="Your message..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit" id="cf-submit">Send Message</button>
+                        <div class="form-status" id="cf-status"></div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -1420,17 +2065,23 @@
                     <li><a href="#services">Service Times</a></li>
                     <li><a href="#pastor">Pastor's Message</a></li>
                     <li><a href="#events">Events</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </div>
 
             <div>
-                <h4>Service Times</h4>
+                <h4>Connect</h4>
                 <ul class="footer-links">
+                    <li><a href="tel:9105254300">(910) 525-4300</a></li>
+                    <li><a href="mailto:info@snowhillmbc.com">info@snowhillmbc.com</a></li>
                     <li><a href="#services">Sun School — 9:30 AM</a></li>
                     <li><a href="#services">Worship — 11:00 AM</a></li>
-                    <li><a href="#services">Wed Bible Study — 7:00 PM</a></li>
+                    <li><a href="#services">Wed Bible Study — 6:30 PM</a></li>
                 </ul>
+                <div class="social-links" style="margin-top:1.25rem">
+                    <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="social-link" aria-label="Facebook Group">f</a>
+                </div>
             </div>
         </div>
 
@@ -1477,6 +2128,56 @@
         });
 
         revealElements.forEach(el => revealObserver.observe(el));
+
+        // 3D mouse-tilt for service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                card.style.transform = `perspective(800px) rotateX(${-y * 12}deg) rotateY(${x * 12}deg) translateY(-6px)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
+
+        // Contact form
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('cf-submit');
+            const status = document.getElementById('cf-status');
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            status.className = 'form-status';
+            status.textContent = '';
+
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('cf-name').value,
+                        email: document.getElementById('cf-email').value,
+                        subject: document.getElementById('cf-subject').value,
+                        message: document.getElementById('cf-message').value
+                    })
+                });
+                if (res.ok) {
+                    status.className = 'form-status success';
+                    status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
+                    e.target.reset();
+                } else {
+                    throw new Error('Server error');
+                }
+            } catch {
+                status.className = 'form-status error';
+                status.textContent = 'Something went wrong. Please try emailing us directly at info@snowhillmbc.com.';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
+            }
+        });
     </script>
 </body>
 </html>
