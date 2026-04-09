@@ -1082,6 +1082,7 @@
         }
 
         .form-group input,
+        .form-group select,
         .form-group textarea {
             width: 100%;
             padding: 0.75rem 1rem;
@@ -1096,6 +1097,7 @@
         }
 
         .form-group input:focus,
+        .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--brick);
@@ -2088,7 +2090,15 @@
                         </div>
                         <div class="form-group">
                             <label for="cf-subject">Subject</label>
-                            <input type="text" id="cf-subject" name="subject" placeholder="How can we help?">
+                            <select id="cf-subject" name="subject" required>
+                                <option value="" disabled selected>How can we help?</option>
+                                <option value="General Inquiry">General Inquiry</option>
+                                <option value="Prayer Request">Prayer Request</option>
+                                <option value="New Visitor">New Visitor / Plan a Visit</option>
+                                <option value="Membership">Membership Information</option>
+                                <option value="Volunteer">Volunteer Opportunities</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="cf-message">Message</label>
