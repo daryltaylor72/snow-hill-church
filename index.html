@@ -983,9 +983,94 @@
 
         .contact-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 2.5rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
             align-items: start;
+        }
+
+        /* ═══════════════════════════════════════
+           GIVE SECTION
+        ═══════════════════════════════════════ */
+        .give {
+            background: var(--navy);
+            padding: 6rem 2rem;
+        }
+
+        .give .section-label { color: var(--gold); }
+        .give .section-title { color: var(--cream); }
+
+        .give-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: 3rem auto 0;
+        }
+
+        .give-card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            color: var(--cream);
+        }
+
+        .give-card-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .give-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .give-card p {
+            font-family: 'Lora', serif;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.75);
+        }
+
+        .give-card a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+
+        .give-cta-link {
+            display: inline-block;
+            margin-top: 1rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 2px;
+        }
+
+        .give-description {
+            text-align: center;
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.7);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .give-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .give-grid { grid-template-columns: 1fr; }
         }
 
         .contact-info h3 {
@@ -1734,6 +1819,7 @@
             <li><a href="#services">Services</a></li>
             <li><a href="#pastor">Pastor</a></li>
             <li><a href="#events">Events</a></li>
+            <li><a href="#give">Give</a></li>
             <li><a href="#gallery">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -2023,6 +2109,41 @@
         </div>
     </section>
 
+    <!-- ═══ GIVE ═══ -->
+    <section class="give" id="give">
+        <div class="container">
+            <div class="section-header reveal">
+                <p class="section-label">Support the Ministry</p>
+                <h2 class="section-title">Give to Snow Hill</h2>
+                <div class="section-divider"><div class="section-divider-cross"></div></div>
+            </div>
+            <p class="give-description reveal">Your generosity sustains our worship, outreach, and community ministry. Every gift — large or small — is an act of faith and a blessing to our congregation and the families we serve.</p>
+            <div class="give-grid">
+                <div class="give-card reveal">
+                    <div class="give-card-icon">🙏</div>
+                    <p class="give-card-title">In Person</p>
+                    <p>Bring your offering during Sunday Worship service at 11:00 AM. We receive tithes and offerings with joy and gratitude.</p>
+                </div>
+                <div class="give-card reveal reveal-delay-1">
+                    <div class="give-card-icon">✉️</div>
+                    <p class="give-card-title">By Mail</p>
+                    <p>Snow Hill Missionary Baptist Church<br>531 Marion-Amos Rd<br>Roseboro, NC 28382</p>
+                </div>
+                <div class="give-card reveal reveal-delay-2">
+                    <div class="give-card-icon">📱</div>
+                    <p class="give-card-title">Cash App</p>
+                    <p>Send your gift instantly via Cash App to<br><strong><a href="https://cash.app/$SnowHillMBCRoseboro" target="_blank" rel="noopener">$SnowHillMBCRoseboro</a></strong></p>
+                    <a href="https://cash.app/$SnowHillMBCRoseboro" target="_blank" rel="noopener" class="give-cta-link">Tap to Give →</a>
+                </div>
+                <div class="give-card reveal reveal-delay-3">
+                    <div class="give-card-icon">❤️</div>
+                    <p class="give-card-title">Questions</p>
+                    <p>Contact us at <a href="mailto:info@snowhillmbc.com">info@snowhillmbc.com</a> or call <a href="tel:9105254300">(910) 525-4300</a> for more information.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ═══ CONTACT ═══ -->
     <section class="section contact" id="contact">
         <div class="container">
@@ -2078,18 +2199,17 @@
                     </div>
                 </div>
 
-                <div class="contact-map reveal reveal-delay-1">
-                    <iframe
-                        src="https://maps.google.com/maps?q=531+Marion-Amos+Rd,+Roseboro,+NC+28382&output=embed"
-                        allowfullscreen
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        title="Snow Hill MBC location">
-                    </iframe>
-                </div>
-
                 <div class="contact-form-wrap reveal reveal-delay-2">
                     <h3>Send Us a Message</h3>
+                    <div class="contact-map" style="margin-bottom:1.5rem;">
+                        <iframe
+                            src="https://maps.google.com/maps?q=531+Marion-Amos+Rd,+Roseboro,+NC+28382&output=embed"
+                            allowfullscreen
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Snow Hill MBC location">
+                        </iframe>
+                    </div>
                     <form id="contactForm">
                         <div class="form-group">
                             <label for="cf-name">Your Name</label>
