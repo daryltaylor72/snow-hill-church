@@ -317,6 +317,25 @@
             color: var(--charcoal);
         }
 
+        .hero-visit-link {
+            display: inline-block;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s ease;
+            opacity: 0;
+            animation: fadeUp 1s 1.3s forwards;
+        }
+
+        .hero-visit-link:hover {
+            color: var(--gold);
+        }
+
         .hero-scroll {
             position: absolute;
             bottom: 2rem;
@@ -1708,8 +1727,9 @@
             <p class="hero-location">Roseboro, North Carolina</p>
             <p class="hero-motto">"Where Good is the Enemy of Greatness"</p>
             <div class="hero-divider"></div>
-            <p class="hero-verse">"For where two or three gather in my name,<br>there am I with them."<br>— Matthew 18:20</p>
+            <p class="hero-verse">"As for me and my household,<br>we will serve the Lord."<br>— Joshua 24:15</p>
             <a href="#services" class="hero-cta">Join Us This Sunday</a>
+            <a href="#about" class="hero-visit-link">New Here? Plan Your Visit →</a>
         </div>
         <div class="hero-scroll">
             <div class="hero-scroll-line"></div>
