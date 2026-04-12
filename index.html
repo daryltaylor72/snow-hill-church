@@ -2361,17 +2361,7 @@
         var turnstileConfig = null;
         var turnstileReady = null;
         var turnstileWidgetId = null;
-        var turnstileToken = '';
         var turnstileRequired = false;
-
-        function setContactButtonState(disabled, label) {
-            var btn = document.getElementById('cf-submit');
-            if (!btn) return;
-            btn.disabled = !!disabled;
-            if (label) {
-                btn.textContent = label;
-            }
-        }
 
         function loadTurnstile(siteKey) {
             if (!siteKey) return Promise.resolve(false);
@@ -2398,18 +2388,9 @@
                     return true;
                 }
                 wrap.hidden = false;
-                turnstileWidgetId = window.turnstile.render('#cf-turnstile', {
+                turnstileWidgetId = window.turnstile.render(target, {
                     sitekey: siteKey,
-                    theme: 'light',
-                    callback: function(token) {
-                        turnstileToken = typeof token === 'string' ? token : '';
-                    },
-                    'expired-callback': function() {
-                        turnstileToken = '';
-                    },
-                    'error-callback': function() {
-                        turnstileToken = '';
-                    }
+                    theme: 'light'
                 });
                 return true;
             });
@@ -2456,11 +2437,10 @@
                 return;
             }
             await ensureTurnstile();
-            if (!turnstileToken) {
-                var responseField = document.querySelector('input[name=\"cf-turnstile-response\"]');
-                if (responseField && typeof responseField.value === 'string') {
-                    turnstileToken = responseField.value.trim();
-                }
+            var turnstileToken = '';
+            var responseField = document.querySelector('input[name=\"cf-turnstile-response\"]');
+            if (responseField && typeof responseField.value === 'string') {
+                turnstileToken = responseField.value.trim();
             }
             if (!turnstileToken && window.turnstile && turnstileWidgetId !== null) {
                 var liveToken = window.turnstile.getResponse(turnstileWidgetId);
@@ -2488,7 +2468,6 @@
                     if (window.turnstile && turnstileWidgetId !== null) {
                         window.turnstile.reset(turnstileWidgetId);
                     }
-                    turnstileToken = '';
                 } else {
                     var errorData = await res.json().catch(function() { return {}; });
                     throw new Error(errorData.error || 'Server error');
