@@ -2350,55 +2350,17 @@
             });
         });
 
-        async function sendContactForm() {
+        document.getElementById('contactForm').addEventListener('submit', function() {
             var btn = document.getElementById('cf-submit');
-            var form = document.getElementById('contactForm');
             var status = document.getElementById('cf-status');
-
-            if (form && !form.reportValidity()) {
-                return;
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = 'Sending...';
             }
-
-            var formData = new FormData(form);
-            var name = String(formData.get('name') || '').trim();
-            var email = String(formData.get('email') || '').trim();
-            var subject = String(formData.get('subject') || '');
-            var message = String(formData.get('message') || '').trim();
-
-            if (!name || !email || !message) {
-                status.className = 'form-status error';
-                status.textContent = 'Please fill in your name, email, and message.';
-                return;
+            if (status) {
+                status.className = 'form-status';
+                status.textContent = '';
             }
-            btn.disabled = true;
-            btn.textContent = 'Sending...';
-            status.className = 'form-status';
-            status.textContent = '';
-            try {
-                var res = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name, email: email, subject: subject, message: message })
-                });
-                if (res.ok) {
-                    status.className = 'form-status success';
-                    status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
-                    document.getElementById('contactForm').reset();
-                } else {
-                    var errorData = await res.json().catch(function() { return {}; });
-                    throw new Error(errorData.error || 'Server error');
-                }
-            } catch (err) {
-                status.className = 'form-status error';
-                status.textContent = err && err.message ? err.message : 'Something went wrong. Please try emailing us directly.';
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'Send Message';
-            }
-        }
-        document.getElementById('contactForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            sendContactForm();
         });
 
         (function syncContactStatusFromUrl() {
