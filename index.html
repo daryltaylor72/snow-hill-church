@@ -2254,7 +2254,7 @@
                         <div class="form-turnstile" id="cf-turnstile-wrap" hidden>
                             <div id="cf-turnstile"></div>
                         </div>
-                        <button type="button" class="form-submit" id="cf-submit">Send Message</button>
+                        <button type="submit" class="form-submit" id="cf-submit">Send Message</button>
                         <div class="form-status" id="cf-status"></div>
                     </form>
                 </div>
@@ -2444,18 +2444,28 @@
 
         async function sendContactForm() {
             var btn = document.getElementById('cf-submit');
+            var form = document.getElementById('contactForm');
             var status = document.getElementById('cf-status');
             var name = document.getElementById('cf-name').value.trim();
             var email = document.getElementById('cf-email').value.trim();
             var subject = document.getElementById('cf-subject').value;
             var message = document.getElementById('cf-message').value.trim();
             var website = document.getElementById('cf-website').value;
+
+            if (form && !form.reportValidity()) {
+                return;
+            }
+
             if (!name || !email || !message) {
                 status.className = 'form-status error';
                 status.textContent = 'Please fill in your name, email, and message.';
                 return;
             }
             await ensureTurnstile();
+            if (!turnstileToken && window.turnstile && turnstileWidgetId !== null) {
+                var liveToken = window.turnstile.getResponse(turnstileWidgetId);
+                turnstileToken = typeof liveToken === 'string' ? liveToken : '';
+            }
             if (turnstileRequired && !turnstileToken) {
                 status.className = 'form-status error';
                 status.textContent = 'Please complete the verification above before sending.';
@@ -2496,7 +2506,10 @@
                 }
             }
         }
-        document.getElementById('cf-submit').addEventListener('click', sendContactForm);
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            sendContactForm();
+        });
         ensureTurnstile();
     </script>
 
