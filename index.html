@@ -2421,15 +2421,17 @@
             var btn = document.getElementById('cf-submit');
             var form = document.getElementById('contactForm');
             var status = document.getElementById('cf-status');
-            var name = document.getElementById('cf-name').value.trim();
-            var email = document.getElementById('cf-email').value.trim();
-            var subject = document.getElementById('cf-subject').value;
-            var message = document.getElementById('cf-message').value.trim();
-            var website = document.getElementById('cf-website').value;
 
             if (form && !form.reportValidity()) {
                 return;
             }
+
+            var formData = new FormData(form);
+            var name = String(formData.get('name') || '').trim();
+            var email = String(formData.get('email') || '').trim();
+            var subject = String(formData.get('subject') || '');
+            var message = String(formData.get('message') || '').trim();
+            var website = String(formData.get('website') || '');
 
             if (!name || !email || !message) {
                 status.className = 'form-status error';
@@ -2437,11 +2439,7 @@
                 return;
             }
             await ensureTurnstile();
-            var turnstileToken = '';
-            var responseField = document.querySelector('input[name=\"cf-turnstile-response\"]');
-            if (responseField && typeof responseField.value === 'string') {
-                turnstileToken = responseField.value.trim();
-            }
+            var turnstileToken = String(formData.get('cf-turnstile-response') || '').trim();
             if (!turnstileToken && window.turnstile && turnstileWidgetId !== null) {
                 var liveToken = window.turnstile.getResponse(turnstileWidgetId);
                 turnstileToken = typeof liveToken === 'string' ? liveToken.trim() : '';
