@@ -2377,7 +2377,6 @@
             if (!siteKey) return Promise.resolve(false);
             if (turnstileReady) return turnstileReady;
             turnstileRequired = true;
-            setContactButtonState(true, 'Verify Above');
 
             turnstileReady = new Promise((resolve, reject) => {
                 if (window.turnstile) {
@@ -2404,15 +2403,12 @@
                     theme: 'light',
                     callback: function(token) {
                         turnstileToken = typeof token === 'string' ? token : '';
-                        setContactButtonState(false, 'Send Message');
                     },
                     'expired-callback': function() {
                         turnstileToken = '';
-                        setContactButtonState(true, 'Verify Above');
                     },
                     'error-callback': function() {
                         turnstileToken = '';
-                        setContactButtonState(true, 'Verification Error');
                     }
                 });
                 return true;
@@ -2430,14 +2426,12 @@
                 }
                 if (!turnstileConfig.turnstileSiteKey) {
                     turnstileRequired = false;
-                    setContactButtonState(false, 'Send Message');
                     return false;
                 }
                 await loadTurnstile(turnstileConfig.turnstileSiteKey);
                 return true;
             } catch (err) {
                 turnstileRequired = false;
-                setContactButtonState(false, 'Send Message');
                 return false;
             }
         }
@@ -2462,9 +2456,15 @@
                 return;
             }
             await ensureTurnstile();
+            if (!turnstileToken) {
+                var responseField = document.querySelector('input[name=\"cf-turnstile-response\"]');
+                if (responseField && typeof responseField.value === 'string') {
+                    turnstileToken = responseField.value.trim();
+                }
+            }
             if (!turnstileToken && window.turnstile && turnstileWidgetId !== null) {
                 var liveToken = window.turnstile.getResponse(turnstileWidgetId);
-                turnstileToken = typeof liveToken === 'string' ? liveToken : '';
+                turnstileToken = typeof liveToken === 'string' ? liveToken.trim() : '';
             }
             if (turnstileRequired && !turnstileToken) {
                 status.className = 'form-status error';
@@ -2489,9 +2489,6 @@
                         window.turnstile.reset(turnstileWidgetId);
                     }
                     turnstileToken = '';
-                    if (turnstileRequired) {
-                        setContactButtonState(true, 'Verify Above');
-                    }
                 } else {
                     var errorData = await res.json().catch(function() { return {}; });
                     throw new Error(errorData.error || 'Server error');
@@ -2500,10 +2497,8 @@
                 status.className = 'form-status error';
                 status.textContent = err && err.message ? err.message : 'Something went wrong. Please try emailing us directly.';
             } finally {
-                if (!turnstileRequired || turnstileToken) {
-                    btn.disabled = false;
-                    btn.textContent = 'Send Message';
-                }
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
             }
         }
         document.getElementById('contactForm').addEventListener('submit', function(event) {
