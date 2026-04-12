@@ -43,7 +43,7 @@ export async function onRequestPost(context) {
         return fail('Invalid request');
     }
 
-    const { name, email, subject, message, turnstileToken } = body;
+    const { name, email, subject, message } = body;
 
     const cleanName = typeof name === 'string' ? name.trim() : '';
     const cleanEmail = typeof email === 'string' ? email.trim() : '';
@@ -60,29 +60,6 @@ export async function onRequestPost(context) {
 
     if (cleanName.length > 120 || cleanEmail.length > 254 || cleanSubject.length > 180 || cleanMessage.length > 5000) {
         return fail('Form input too long');
-    }
-
-    if (env.TURNSTILE_SECRET_KEY) {
-        if (typeof turnstileToken !== 'string' || !turnstileToken.trim()) {
-            return fail('Verification required', 403);
-        }
-
-        const formData = new URLSearchParams();
-        formData.set('secret', env.TURNSTILE_SECRET_KEY);
-        formData.set('response', turnstileToken.trim());
-        const clientIp = request.headers.get('CF-Connecting-IP');
-        if (clientIp) {
-            formData.set('remoteip', clientIp);
-        }
-
-        const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-            method: 'POST',
-            body: formData
-        });
-        const verificationResult = await verification.json();
-        if (!verification.ok || !verificationResult.success) {
-            return fail('Verification failed', 403);
-        }
     }
 
     const escapeHtml = (value) =>

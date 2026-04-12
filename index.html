@@ -2247,9 +2247,6 @@
                             <label for="cf-message">Message</label>
                             <textarea id="cf-message" name="message" required placeholder="Your message..."></textarea>
                         </div>
-                        <div class="form-turnstile" id="cf-turnstile-wrap" hidden>
-                            <div id="cf-turnstile"></div>
-                        </div>
                         <button type="submit" class="form-submit" id="cf-submit">Send Message</button>
                         <div class="form-status" id="cf-status"></div>
                     </form>
@@ -2353,66 +2350,6 @@
             });
         });
 
-        // Contact form
-        var turnstileConfig = null;
-        var turnstileReady = null;
-        var turnstileWidgetId = null;
-        var turnstileRequired = false;
-
-        function loadTurnstile(siteKey) {
-            if (!siteKey) return Promise.resolve(false);
-            if (turnstileReady) return turnstileReady;
-            turnstileRequired = true;
-
-            turnstileReady = new Promise((resolve, reject) => {
-                if (window.turnstile) {
-                    resolve(true);
-                    return;
-                }
-
-                var script = document.createElement('script');
-                script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-                script.async = true;
-                script.defer = true;
-                script.onload = function() { resolve(true); };
-                script.onerror = function() { reject(new Error('Failed to load verification')); };
-                document.head.appendChild(script);
-            }).then(function() {
-                var wrap = document.getElementById('cf-turnstile-wrap');
-                var target = document.getElementById('cf-turnstile');
-                if (!wrap || !target || !window.turnstile || turnstileWidgetId !== null) {
-                    return true;
-                }
-                wrap.hidden = false;
-                turnstileWidgetId = window.turnstile.render(target, {
-                    sitekey: siteKey,
-                    theme: 'light'
-                });
-                return true;
-            });
-
-            return turnstileReady;
-        }
-
-        async function ensureTurnstile() {
-            try {
-                if (!turnstileConfig) {
-                    var configRes = await fetch('/api/contact-config', { headers: { 'Accept': 'application/json' } });
-                    if (!configRes.ok) return false;
-                    turnstileConfig = await configRes.json();
-                }
-                if (!turnstileConfig.turnstileSiteKey) {
-                    turnstileRequired = false;
-                    return false;
-                }
-                await loadTurnstile(turnstileConfig.turnstileSiteKey);
-                return true;
-            } catch (err) {
-                turnstileRequired = false;
-                return false;
-            }
-        }
-
         async function sendContactForm() {
             var btn = document.getElementById('cf-submit');
             var form = document.getElementById('contactForm');
@@ -2433,17 +2370,6 @@
                 status.textContent = 'Please fill in your name, email, and message.';
                 return;
             }
-            await ensureTurnstile();
-            var turnstileToken = String(formData.get('cf-turnstile-response') || '').trim();
-            if (!turnstileToken && window.turnstile && turnstileWidgetId !== null) {
-                var liveToken = window.turnstile.getResponse(turnstileWidgetId);
-                turnstileToken = typeof liveToken === 'string' ? liveToken.trim() : '';
-            }
-            if (turnstileRequired && !turnstileToken) {
-                status.className = 'form-status error';
-                status.textContent = 'Please complete the verification above before sending.';
-                return;
-            }
             btn.disabled = true;
             btn.textContent = 'Sending...';
             status.className = 'form-status';
@@ -2452,15 +2378,12 @@
                 var res = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name, email: email, subject: subject, message: message, turnstileToken: turnstileToken })
+                    body: JSON.stringify({ name: name, email: email, subject: subject, message: message })
                 });
                 if (res.ok) {
                     status.className = 'form-status success';
                     status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
                     document.getElementById('contactForm').reset();
-                    if (window.turnstile && turnstileWidgetId !== null) {
-                        window.turnstile.reset(turnstileWidgetId);
-                    }
                 } else {
                     var errorData = await res.json().catch(function() { return {}; });
                     throw new Error(errorData.error || 'Server error');
@@ -2477,7 +2400,6 @@
             event.preventDefault();
             sendContactForm();
         });
-        ensureTurnstile();
     </script>
 
     <script>
