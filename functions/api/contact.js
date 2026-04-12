@@ -12,10 +12,25 @@ export async function onRequestPost(context) {
     };
     const fail = (message, status = 400) =>
         new Response(JSON.stringify({ error: message }), { status, headers });
+    const acceptsHtml = (request.headers.get('accept') || '').includes('text/html');
+    const redirectWithStatus = (kind, message, status = 303) => {
+        const url = new URL(request.url);
+        url.pathname = '/';
+        url.hash = `contact-status=${kind}`;
+        url.searchParams.set('contact', kind);
+        if (message) {
+            url.searchParams.set('message', message);
+        }
+        return Response.redirect(url.toString(), status);
+    };
+    const failResponse = (message, status = 400) =>
+        acceptsHtml ? redirectWithStatus('error', message) : fail(message, status);
 
     const contentType = request.headers.get('content-type') || '';
-    if (!contentType.toLowerCase().includes('application/json')) {
-        return fail('Unsupported content type', 415);
+    const isJson = contentType.toLowerCase().includes('application/json');
+    const isForm = contentType.toLowerCase().includes('application/x-www-form-urlencoded') || contentType.toLowerCase().includes('multipart/form-data');
+    if (!isJson && !isForm) {
+        return failResponse('Unsupported content type', 415);
     }
 
     const origin = request.headers.get('origin');
@@ -29,18 +44,28 @@ export async function onRequestPost(context) {
     try {
         sourceOrigin = new URL(source).origin;
     } catch {
-        return fail('Invalid request origin', 403);
+        return failResponse('Invalid request origin', 403);
     }
 
     if (!allowedOrigins.has(sourceOrigin)) {
-        return fail('Origin not allowed', 403);
+        return failResponse('Origin not allowed', 403);
     }
 
     let body;
     try {
-        body = await request.json();
+        if (isJson) {
+            body = await request.json();
+        } else {
+            const formData = await request.formData();
+            body = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+        }
     } catch {
-        return fail('Invalid request');
+        return failResponse('Invalid request');
     }
 
     const { name, email, subject, message } = body;
@@ -51,15 +76,15 @@ export async function onRequestPost(context) {
     const cleanMessage = typeof message === 'string' ? message.trim() : '';
 
     if (!cleanName || !cleanEmail || !cleanMessage) {
-        return fail('Missing required fields');
+        return failResponse('Missing required fields');
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
-        return fail('Invalid email address');
+        return failResponse('Invalid email address');
     }
 
     if (cleanName.length > 120 || cleanEmail.length > 254 || cleanSubject.length > 180 || cleanMessage.length > 5000) {
-        return fail('Form input too long');
+        return failResponse('Form input too long');
     }
 
     const escapeHtml = (value) =>
@@ -100,8 +125,12 @@ export async function onRequestPost(context) {
     if (!res.ok) {
         const err = await res.text();
         console.error('Resend error:', err);
-        return new Response(JSON.stringify({ error: 'Failed to send email' }), { status: 500, headers });
+        return acceptsHtml
+            ? redirectWithStatus('error', 'Failed to send email')
+            : new Response(JSON.stringify({ error: 'Failed to send email' }), { status: 500, headers });
     }
 
-    return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
+    return acceptsHtml
+        ? redirectWithStatus('success', 'Message sent')
+        : new Response(JSON.stringify({ ok: true }), { status: 200, headers });
 }
