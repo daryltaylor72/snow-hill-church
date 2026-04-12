@@ -2256,7 +2256,7 @@
                             <label for="cf-message">Message</label>
                             <textarea id="cf-message" name="message" required placeholder="Your message..."></textarea>
                         </div>
-                        <button type="button" class="form-submit" id="cf-submit">Send Message</button>
+                        <button type="submit" class="form-submit" id="cf-submit">Send Message</button>
                         <div class="form-status" id="cf-status"></div>
                     </form>
                 </div>
@@ -2370,9 +2370,7 @@
                 status.className = 'form-status';
                 status.textContent = '';
             }
-        }
-
-        document.getElementById('cf-submit').addEventListener('click', sendContactForm);
+        });
 
         (function syncContactStatusFromUrl() {
             var status = document.getElementById('cf-status');
