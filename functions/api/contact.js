@@ -43,10 +43,7 @@ export async function onRequestPost(context) {
         return fail('Invalid request');
     }
 
-    const { name, email, subject, message, website, turnstileToken } = body;
-    if (website) {
-        return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
-    }
+    const { name, email, subject, message, turnstileToken } = body;
 
     const cleanName = typeof name === 'string' ? name.trim() : '';
     const cleanEmail = typeof email === 'string' ? email.trim() : '';
