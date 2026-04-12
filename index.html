@@ -2251,6 +2251,9 @@
                             <label for="cf-message">Message</label>
                             <textarea id="cf-message" name="message" required placeholder="Your message..."></textarea>
                         </div>
+                        <div class="form-turnstile" id="cf-turnstile-wrap" hidden>
+                            <div id="cf-turnstile"></div>
+                        </div>
                         <button type="button" class="form-submit" id="cf-submit">Send Message</button>
                         <div class="form-status" id="cf-status"></div>
                     </form>
@@ -2355,6 +2358,58 @@
         });
 
         // Contact form
+        var turnstileReady = null;
+        var turnstileWidgetId = null;
+
+        function loadTurnstile(siteKey) {
+            if (!siteKey) return Promise.resolve(false);
+            if (turnstileReady) return turnstileReady;
+
+            turnstileReady = new Promise((resolve, reject) => {
+                if (window.turnstile) {
+                    resolve(true);
+                    return;
+                }
+
+                var script = document.createElement('script');
+                script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+                script.async = true;
+                script.defer = true;
+                script.onload = function() { resolve(true); };
+                script.onerror = function() { reject(new Error('Failed to load verification')); };
+                document.head.appendChild(script);
+            }).then(function() {
+                var wrap = document.getElementById('cf-turnstile-wrap');
+                var target = document.getElementById('cf-turnstile');
+                if (!wrap || !target || !window.turnstile || turnstileWidgetId !== null) {
+                    return true;
+                }
+                wrap.hidden = false;
+                turnstileWidgetId = window.turnstile.render('#cf-turnstile', {
+                    sitekey: siteKey,
+                    theme: 'light'
+                });
+                return true;
+            });
+
+            return turnstileReady;
+        }
+
+        async function getTurnstileToken() {
+            try {
+                var configRes = await fetch('/api/contact-config', { headers: { 'Accept': 'application/json' } });
+                if (!configRes.ok) return '';
+                var config = await configRes.json();
+                if (!config.turnstileSiteKey) return '';
+                await loadTurnstile(config.turnstileSiteKey);
+                if (turnstileWidgetId === null || !window.turnstile) return '';
+                var token = window.turnstile.getResponse(turnstileWidgetId);
+                return typeof token === 'string' ? token : '';
+            } catch (err) {
+                return '';
+            }
+        }
+
         async function sendContactForm() {
             var btn = document.getElementById('cf-submit');
             var status = document.getElementById('cf-status');
@@ -2368,6 +2423,7 @@
                 status.textContent = 'Please fill in your name, email, and message.';
                 return;
             }
+            var turnstileToken = await getTurnstileToken();
             btn.disabled = true;
             btn.textContent = 'Sending...';
             status.className = 'form-status';
@@ -2376,24 +2432,29 @@
                 var res = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name, email: email, subject: subject, message: message, website: website })
+                    body: JSON.stringify({ name: name, email: email, subject: subject, message: message, website: website, turnstileToken: turnstileToken })
                 });
                 if (res.ok) {
                     status.className = 'form-status success';
                     status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
                     document.getElementById('contactForm').reset();
+                    if (window.turnstile && turnstileWidgetId !== null) {
+                        window.turnstile.reset(turnstileWidgetId);
+                    }
                 } else {
-                    throw new Error('Server error');
+                    var errorData = await res.json().catch(function() { return {}; });
+                    throw new Error(errorData.error || 'Server error');
                 }
             } catch (err) {
                 status.className = 'form-status error';
-                status.textContent = 'Something went wrong. Please try emailing us directly.';
+                status.textContent = err && err.message ? err.message : 'Something went wrong. Please try emailing us directly.';
             } finally {
                 btn.disabled = false;
                 btn.textContent = 'Send Message';
             }
         }
         document.getElementById('cf-submit').addEventListener('click', sendContactForm);
+        getTurnstileToken();
     </script>
 
     <script>
