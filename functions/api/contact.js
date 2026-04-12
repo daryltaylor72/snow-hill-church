@@ -16,7 +16,7 @@ export async function onRequestPost(context) {
     const redirectWithStatus = (kind, message, status = 303) => {
         const url = new URL(request.url);
         url.pathname = '/';
-        url.hash = `contact-status=${kind}`;
+        url.hash = 'contact';
         url.searchParams.set('contact', kind);
         if (message) {
             url.searchParams.set('message', message);

@@ -2363,6 +2363,7 @@
 
         (function syncContactStatusFromUrl() {
             var status = document.getElementById('cf-status');
+            var section = document.getElementById('contact');
             if (!status) return;
             var params = new URLSearchParams(window.location.search);
             var contactState = params.get('contact');
@@ -2370,8 +2371,11 @@
             if (!contactState || !message) return;
             status.className = contactState === 'success' ? 'form-status success' : 'form-status error';
             status.textContent = message;
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
             if (window.history && window.history.replaceState) {
-                var cleanUrl = window.location.pathname + window.location.hash;
+                var cleanUrl = window.location.pathname + '#contact';
                 window.history.replaceState({}, document.title, cleanUrl);
             }
         })();
