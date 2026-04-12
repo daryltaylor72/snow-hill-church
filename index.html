@@ -1194,6 +1194,14 @@
             resize: vertical;
         }
 
+        .form-honeypot {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
         .form-submit {
             width: 100%;
             padding: 0.9rem;
@@ -2211,6 +2219,10 @@
                         </iframe>
                     </div>
                     <form id="contactForm">
+                        <div class="form-honeypot" aria-hidden="true">
+                            <label for="cf-website">Website</label>
+                            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
                         <div class="form-group">
                             <label for="cf-name">Your Name</label>
                             <input type="text" id="cf-name" name="name" required placeholder="Full name">
@@ -2346,6 +2358,7 @@
             var email = document.getElementById('cf-email').value.trim();
             var subject = document.getElementById('cf-subject').value;
             var message = document.getElementById('cf-message').value.trim();
+            var website = document.getElementById('cf-website').value;
             if (!name || !email || !message) {
                 status.className = 'form-status error';
                 status.textContent = 'Please fill in your name, email, and message.';
@@ -2359,7 +2372,7 @@
                 var res = await fetch('/api/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: name, email: email, subject: subject, message: message })
+                    body: JSON.stringify({ name: name, email: email, subject: subject, message: message, website: website })
                 });
                 if (res.ok) {
                     status.className = 'form-status success';
