@@ -4,7 +4,8 @@ export async function onRequestPost(context) {
         'https://snowhillmbc.com',
         'https://www.snowhillmbc.com',
         'https://snowhillmissionarybaptistchurch.org',
-        'https://www.snowhillmissionarybaptistchurch.org'
+        'https://www.snowhillmissionarybaptistchurch.org',
+        'https://snow-hill-church-git.pages.dev'
     ]);
     const headers = {
         'Content-Type': 'application/json',
@@ -25,6 +26,10 @@ export async function onRequestPost(context) {
     };
     const failResponse = (message, status = 400) =>
         acceptsHtml ? redirectWithStatus('error', message) : fail(message, status);
+    const fakeOk = () =>
+        acceptsHtml
+            ? redirectWithStatus('success', 'Message sent')
+            : new Response(JSON.stringify({ ok: true }), { status: 200, headers });
 
     const contentType = request.headers.get('content-type') || '';
     const isJson = contentType.toLowerCase().includes('application/json');
@@ -61,14 +66,26 @@ export async function onRequestPost(context) {
                 name: formData.get('name'),
                 email: formData.get('email'),
                 subject: formData.get('subject'),
-                message: formData.get('message')
+                message: formData.get('message'),
+                website: formData.get('website'),
+                company: formData.get('company'),
+                turnstileToken: formData.get('turnstileToken') || formData.get('cf-turnstile-response')
             };
         }
     } catch {
         return failResponse('Invalid request');
     }
 
+    const website = typeof body.website === 'string' ? body.website.trim() : (body.website ? String(body.website) : '');
+    const company = typeof body.company === 'string' ? body.company.trim() : (body.company ? String(body.company) : '');
+    if (website || company) {
+        return fakeOk();
+    }
+
     const { name, email, subject, message } = body;
+    const turnstileToken = typeof body.turnstileToken === 'string'
+        ? body.turnstileToken
+        : (typeof body['cf-turnstile-response'] === 'string' ? body['cf-turnstile-response'] : '');
 
     const cleanName = typeof name === 'string' ? name.trim() : '';
     const cleanEmail = typeof email === 'string' ? email.trim() : '';
@@ -85,6 +102,60 @@ export async function onRequestPost(context) {
 
     if (cleanName.length > 120 || cleanEmail.length > 254 || cleanSubject.length > 180 || cleanMessage.length > 5000) {
         return failResponse('Form input too long');
+    }
+
+    if (cleanMessage.length < 10) {
+        return failResponse('Message is too short');
+    }
+
+    // Abuse filters — silent fake-ok so bots don't adapt
+    const urlMatches = cleanMessage.match(/https?:\/\/[^\s]+/gi) || [];
+    if (urlMatches.length >= 2) {
+        return fakeOk();
+    }
+
+    const letters = cleanMessage.match(/\p{L}/gu) || [];
+    if (letters.length > 0) {
+        const latinLetters = letters.filter((ch) => /^[A-Za-z]$/.test(ch));
+        if (latinLetters.length / letters.length < 0.5) {
+            return fakeOk();
+        }
+    }
+
+    if (/^[A-Z][a-z]{2,}[A-Z][a-z]{2,}\d*$/.test(cleanName)) {
+        return fakeOk();
+    }
+
+    // Conservative junk local-part: digit soup like ...2v7t40d@, not john.smith72@
+    const localPart = cleanEmail.split('@')[0] || '';
+    if (/[0-9]{3,}[a-z0-9]{4,}@/i.test(cleanEmail)) {
+        return fakeOk();
+    }
+    if (localPart.length >= 14 && /[a-z]{6,}\d[a-z0-9]*\d[a-z0-9]+$/i.test(localPart) && /\d[a-z]\d/i.test(localPart)) {
+        return fakeOk();
+    }
+
+    if (env.TURNSTILE_SECRET_KEY) {
+        if (typeof turnstileToken !== 'string' || !turnstileToken.trim()) {
+            return failResponse('Verification required', 403);
+        }
+
+        const verifyData = new URLSearchParams();
+        verifyData.set('secret', env.TURNSTILE_SECRET_KEY);
+        verifyData.set('response', turnstileToken.trim());
+        const clientIp = request.headers.get('CF-Connecting-IP');
+        if (clientIp) {
+            verifyData.set('remoteip', clientIp);
+        }
+
+        const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+            method: 'POST',
+            body: verifyData
+        });
+        const verificationResult = await verification.json();
+        if (!verification.ok || !verificationResult.success) {
+            return failResponse('Verification failed', 403);
+        }
     }
 
     const escapeHtml = (value) =>

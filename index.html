@@ -1212,6 +1212,10 @@
             overflow: hidden;
         }
 
+        .form-turnstile {
+            margin-bottom: 1.25rem;
+        }
+
         .form-submit {
             width: 100%;
             padding: 0.9rem;
@@ -2231,7 +2235,11 @@
                             title="Snow Hill MBC location">
                         </iframe>
                     </div>
-                    <form id="contactForm" method="post" action="/api/contact">
+                    <form id="contactForm">
+                        <div class="form-honeypot" aria-hidden="true">
+                            <label for="cf-website">Website</label>
+                            <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+                        </div>
                         <div class="form-group">
                             <label for="cf-name">Your Name</label>
                             <input type="text" id="cf-name" name="name" required placeholder="Full name">
@@ -2255,6 +2263,9 @@
                         <div class="form-group">
                             <label for="cf-message">Message</label>
                             <textarea id="cf-message" name="message" required placeholder="Your message..."></textarea>
+                        </div>
+                        <div class="form-turnstile" id="cf-turnstile-wrap" hidden>
+                            <div id="cf-turnstile"></div>
                         </div>
                         <button type="submit" class="form-submit" id="cf-submit">Send Message</button>
                         <div class="form-status" id="cf-status"></div>
@@ -2359,18 +2370,140 @@
             });
         });
 
-        document.getElementById('contactForm').addEventListener('submit', function() {
+        // Contact form — Turnstile + fetch JSON (Chrome-safe addEventListener)
+        var turnstileConfig = null;
+        var turnstileReady = null;
+        var turnstileWidgetId = null;
+        var turnstileRequired = false;
+
+        function loadTurnstile(siteKey) {
+            if (!siteKey) return Promise.resolve(false);
+            if (turnstileReady) return turnstileReady;
+            turnstileRequired = true;
+
+            turnstileReady = new Promise((resolve, reject) => {
+                if (window.turnstile) {
+                    resolve(true);
+                    return;
+                }
+
+                var script = document.createElement('script');
+                script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+                script.async = true;
+                script.defer = true;
+                script.onload = function() { resolve(true); };
+                script.onerror = function() { reject(new Error('Failed to load verification')); };
+                document.head.appendChild(script);
+            }).then(function() {
+                var wrap = document.getElementById('cf-turnstile-wrap');
+                var target = document.getElementById('cf-turnstile');
+                if (!wrap || !target || !window.turnstile || turnstileWidgetId !== null) {
+                    return true;
+                }
+                wrap.hidden = false;
+                turnstileWidgetId = window.turnstile.render(target, {
+                    sitekey: siteKey,
+                    theme: 'light'
+                });
+                return true;
+            });
+
+            return turnstileReady;
+        }
+
+        async function ensureTurnstile() {
+            try {
+                if (!turnstileConfig) {
+                    var configRes = await fetch('/api/contact-config', { headers: { 'Accept': 'application/json' } });
+                    if (!configRes.ok) return false;
+                    turnstileConfig = await configRes.json();
+                }
+                if (!turnstileConfig.turnstileSiteKey) {
+                    turnstileRequired = false;
+                    return false;
+                }
+                await loadTurnstile(turnstileConfig.turnstileSiteKey);
+                return true;
+            } catch (err) {
+                turnstileRequired = false;
+                return false;
+            }
+        }
+
+        async function sendContactForm() {
             var btn = document.getElementById('cf-submit');
+            var form = document.getElementById('contactForm');
             var status = document.getElementById('cf-status');
-            if (btn) {
-                btn.disabled = true;
-                btn.textContent = 'Sending...';
+
+            if (form && !form.reportValidity()) {
+                return;
             }
-            if (status) {
-                status.className = 'form-status';
-                status.textContent = '';
+
+            var formData = new FormData(form);
+            var name = String(formData.get('name') || '').trim();
+            var email = String(formData.get('email') || '').trim();
+            var subject = String(formData.get('subject') || '');
+            var message = String(formData.get('message') || '').trim();
+            var website = String(formData.get('website') || '');
+
+            if (!name || !email || !message) {
+                status.className = 'form-status error';
+                status.textContent = 'Please fill in your name, email, and message.';
+                return;
             }
+            await ensureTurnstile();
+            var turnstileToken = String(formData.get('cf-turnstile-response') || '').trim();
+            if (!turnstileToken && window.turnstile && turnstileWidgetId !== null) {
+                var liveToken = window.turnstile.getResponse(turnstileWidgetId);
+                turnstileToken = typeof liveToken === 'string' ? liveToken.trim() : '';
+            }
+            if (turnstileRequired && !turnstileToken) {
+                status.className = 'form-status error';
+                status.textContent = 'Please complete the verification above before sending.';
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            status.className = 'form-status';
+            status.textContent = '';
+            try {
+                var res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        subject: subject,
+                        message: message,
+                        website: website,
+                        turnstileToken: turnstileToken
+                    })
+                });
+                if (res.ok) {
+                    status.className = 'form-status success';
+                    status.textContent = 'Thank you! Your message has been sent. We\'ll be in touch soon.';
+                    document.getElementById('contactForm').reset();
+                    if (window.turnstile && turnstileWidgetId !== null) {
+                        window.turnstile.reset(turnstileWidgetId);
+                    }
+                } else {
+                    var errorData = await res.json().catch(function() { return {}; });
+                    throw new Error(errorData.error || 'Server error');
+                }
+            } catch (err) {
+                status.className = 'form-status error';
+                status.textContent = err && err.message ? err.message : 'Something went wrong. Please try emailing us directly.';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Send Message';
+            }
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            sendContactForm();
         });
+        ensureTurnstile();
 
         (function syncContactStatusFromUrl() {
             var status = document.getElementById('cf-status');
