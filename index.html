@@ -1626,7 +1626,7 @@
             }
 
             .contact-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: minmax(0, 1fr);
             }
 
             .footer-top {
@@ -1693,6 +1693,10 @@
         }
 
         @media (max-width: 480px) {
+            .contact-form-wrap {
+                padding: 1.75rem 0.75rem;
+            }
+
             .event-item {
                 grid-template-columns: 1fr;
                 text-align: center;
@@ -2403,7 +2407,8 @@
                 wrap.hidden = false;
                 turnstileWidgetId = window.turnstile.render(target, {
                     sitekey: siteKey,
-                    theme: 'light'
+                    theme: 'light',
+                    size: window.matchMedia('(max-width: 374px)').matches ? 'compact' : 'normal'
                 });
                 return true;
             });
