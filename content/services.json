@@ -1,0 +1,38 @@
+{
+  "header": {
+    "label": "Worship With Us",
+    "title": "Service Times"
+  },
+  "cards": [
+    {
+      "day": "Sunday",
+      "name": "Sunday School",
+      "time": "9:30 AM",
+      "desc": "Biblical teaching and discussion for all ages — children, youth, and adults.",
+      "contact_label": "Sunday School",
+      "footer_label": "Sun School",
+      "live_label": "",
+      "live_url": ""
+    },
+    {
+      "day": "Sunday",
+      "name": "Morning Worship",
+      "time": "11:00 AM",
+      "desc": "Our main worship service with praise, prayer, and the preaching of God's Word.",
+      "contact_label": "Morning Worship",
+      "footer_label": "Worship",
+      "live_label": "📷 Facebook Live — 11:45 AM",
+      "live_url": "https://www.facebook.com/groups/137597172940164"
+    },
+    {
+      "day": "Wednesday",
+      "name": "Bible Study",
+      "time": "7:00 PM",
+      "desc": "Midweek study and prayer — dive deeper into Scripture with your church family.",
+      "contact_label": "Wed Bible Study",
+      "footer_label": "Wed Bible Study",
+      "live_label": "",
+      "live_url": ""
+    }
+  ]
+}

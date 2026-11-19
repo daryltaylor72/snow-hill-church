@@ -1833,6 +1833,87 @@
         .footer-brand:hover {
             transform: rotateY(-5deg) translateZ(5px);
         }
+        /* ═══════════════════════════════════════
+           ANNOUNCEMENT + STAFF (only shown when the
+           admin panel adds content for them)
+        ═══════════════════════════════════════ */
+        .announcement {
+            background: var(--brick-deep);
+            color: var(--cream);
+            text-align: center;
+            padding: 1.75rem 1.5rem;
+            border-bottom: 3px solid var(--gold);
+        }
+        .announcement .container {
+            max-width: 800px;
+        }
+        .announcement-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            margin-bottom: 0.5rem;
+        }
+        .announcement-body {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+        .announcement-link {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.6rem 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            text-decoration: none;
+            border-bottom: 1px solid var(--gold);
+        }
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 3.5rem auto 0;
+            position: relative;
+            z-index: 1;
+        }
+        .staff-card {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+        .staff-photo {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 1rem;
+            border: 2px solid var(--gold);
+        }
+        .staff-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--gold);
+            letter-spacing: 0.04em;
+            overflow-wrap: anywhere;
+        }
+        .staff-role {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--warm-gray-light);
+            margin-top: 0.3rem;
+        }
     </style>
 </head>
 <body>
@@ -1841,9 +1922,10 @@
     <nav class="nav" id="nav">
         <a href="#" class="nav-brand">
             <div class="nav-cross"></div>
-            <span class="nav-brand-text">Snow Hill MBC</span>
+            <span class="nav-brand-text"><!--cms:nav.brand-->Snow Hill MBC<!--/cms:nav.brand--></span>
         </a>
         <ul class="nav-links" id="navLinks">
+            <!--cms:nav.links-->
             <li><a href="#about">About</a></li>
             <li><a href="#services">Services</a></li>
             <li><a href="#pastor">Pastor</a></li>
@@ -1851,6 +1933,7 @@
             <li><a href="#give">Give</a></li>
             <li><a href="#gallery">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
+            <!--/cms:nav.links-->
         </ul>
         <button class="nav-mobile-toggle" id="navToggle" aria-label="Toggle navigation">
             <span></span>
@@ -1863,6 +1946,7 @@
     <section class="hero" id="home">
         <div class="hero-overlay"></div>
         <div class="hero-content">
+            <!--cms:hero-->
             <p class="hero-subtitle-top">Welcome Home</p>
             <h1 class="hero-title">Snow Hill Missionary<br>Baptist Church</h1>
             <p class="hero-location">Roseboro, North Carolina</p>
@@ -1871,18 +1955,22 @@
             <p class="hero-verse">"As for me and my household,<br>we will serve the Lord."<br>— Joshua 24:15</p>
             <a href="#services" class="hero-cta">Join Us This Sunday</a>
             <a href="#about" class="hero-visit-link">New Here? Plan Your Visit →</a>
+            <!--/cms:hero-->
         </div>
         <div class="hero-scroll">
             <div class="hero-scroll-line"></div>
         </div>
     </section>
+    <!--cms:announcement--><!--/cms:announcement-->
 
     <!-- ═══ ABOUT ═══ -->
     <section class="section about" id="about">
         <div class="container">
             <div class="section-header reveal">
+                <!--cms:about.header-->
                 <p class="section-label">Our Story</p>
                 <h2 class="section-title">A Place of Faith,<br>Family &amp; Fellowship</h2>
+                <!--/cms:about.header-->
                 <div class="section-divider">
                     <div class="section-divider-cross"></div>
                 </div>
@@ -1890,10 +1978,13 @@
 
             <div class="about-grid">
                 <div class="about-text reveal">
+                    <!--cms:about.body-->
                     <p>Snow Hill Missionary Baptist Church has stood as a beacon of faith and fellowship in the heart of Roseboro, North Carolina for generations. Rooted in the rich traditions of the Baptist faith, our congregation is a family — bound together by love, service, and an unwavering commitment to God's Word.</p>
                     <p>We believe that the church is more than a building — it is the living body of Christ, called to serve our community with compassion, to worship with joy, and to grow together in grace. Whether you've been walking with Christ for decades or are taking your very first steps of faith, you will find a home here at Snow Hill.</p>
+                    <!--/cms:about.body-->
 
                     <div class="about-values">
+                        <!--cms:about.values-->
                         <div class="about-value reveal reveal-delay-1">
                             <div class="about-value-inner">
                                 <div class="about-value-front">
@@ -1942,12 +2033,13 @@
                                 </div>
                             </div>
                         </div>
+                        <!--/cms:about.values-->
                     </div>
                 </div>
 
                 <div class="about-image-side reveal">
                     <div class="about-image-frame">
-                        <img src="images/church-building.jpg" alt="Snow Hill Missionary Baptist Church building">
+                        <!--cms:about.image--><img src="images/church-building.jpg" alt="Snow Hill Missionary Baptist Church building"><!--/cms:about.image-->
                     </div>
                 </div>
             </div>
@@ -1957,8 +2049,10 @@
     <!-- ═══ VERSE BANNER ═══ -->
     <div class="about-verse-banner reveal">
         <div class="container">
+            <!--cms:verse_banner-->
             "Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up."
             <cite>Galatians 6:9</cite>
+            <!--/cms:verse_banner-->
         </div>
     </div>
 
@@ -1966,14 +2060,17 @@
     <section class="section services" id="services">
         <div class="container">
             <div class="section-header reveal">
+                <!--cms:services.header-->
                 <p class="section-label">Worship With Us</p>
                 <h2 class="section-title">Service Times</h2>
+                <!--/cms:services.header-->
                 <div class="section-divider">
                     <div class="section-divider-cross"></div>
                 </div>
             </div>
 
             <div class="services-grid">
+                <!--cms:services.cards-->
                 <div class="service-card reveal reveal-delay-1">
                     <div class="service-icon">
                         <div class="service-icon-cross"></div>
@@ -1992,7 +2089,7 @@
                     <h3 class="service-name">Morning Worship</h3>
                     <p class="service-time">11:00 AM</p>
                     <p class="service-desc">Our main worship service with praise, prayer, and the preaching of God's Word.</p>
-                    <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="fb-live-badge">&#128247; Facebook Live — 11:45 AM</a>
+                    <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="fb-live-badge">📷 Facebook Live — 11:45 AM</a>
                 </div>
 
                 <div class="service-card reveal reveal-delay-3">
@@ -2004,6 +2101,7 @@
                     <p class="service-time">7:00 PM</p>
                     <p class="service-desc">Midweek study and prayer — dive deeper into Scripture with your church family.</p>
                 </div>
+                <!--/cms:services.cards-->
             </div>
         </div>
     </section>
@@ -2012,27 +2110,29 @@
     <section class="section pastor" id="pastor">
         <div class="container">
             <div class="section-header reveal">
+                <!--cms:staff.header-->
                 <p class="section-label">From the Pastor</p>
                 <h2 class="section-title">A Word of Welcome</h2>
+                <!--/cms:staff.header-->
                 <div class="section-divider">
                     <div class="section-divider-cross"></div>
                 </div>
             </div>
 
             <div class="pastor-layout reveal">
+                <!--cms:staff.pastor-->
                 <div class="pastor-photo">
-                    <img src="images/gallery/community-1.jpg" alt="Pastor & First Family — Snow Hill MBC">
+                    <img src="images/gallery/community-1.jpg" alt="Pastor &amp; First Family — Snow Hill MBC">
                 </div>
                 <div class="pastor-content">
                     <div class="pastor-quote-mark">&ldquo;</div>
-                    <p class="pastor-message">
-                        On behalf of the entire Snow Hill Missionary Baptist Church family, I want to extend a warm and heartfelt welcome to you. Whether you are looking for a new church home, seeking to grow in your faith, or simply curious about who we are — our doors and our hearts are open to you.<br><br>
-                        At Snow Hill, we believe that God has a purpose for every life and a plan for every soul. We are here to walk alongside you on your journey, to lift you up in prayer, and to celebrate the goodness of God together. Come as you are. You are loved, you are welcome, and you belong.
-                    </p>
+                    <p class="pastor-message">On behalf of the entire Snow Hill Missionary Baptist Church family, I want to extend a warm and heartfelt welcome to you. Whether you are looking for a new church home, seeking to grow in your faith, or simply curious about who we are — our doors and our hearts are open to you.<br><br>At Snow Hill, we believe that God has a purpose for every life and a plan for every soul. We are here to walk alongside you on your journey, to lift you up in prayer, and to celebrate the goodness of God together. Come as you are. You are loved, you are welcome, and you belong.</p>
                     <p class="pastor-name">Rev. Dr. S.E. Bryant &amp; First Lady Del Bryant</p>
                     <p class="pastor-title">Snow Hill Missionary Baptist Church</p>
                 </div>
+                <!--/cms:staff.pastor-->
             </div>
+            <!--cms:staff.members--><!--/cms:staff.members-->
         </div>
     </section>
 
@@ -2040,14 +2140,17 @@
     <section class="section events" id="events">
         <div class="container">
             <div class="section-header reveal">
+                <!--cms:events.header-->
                 <p class="section-label">Upcoming</p>
                 <h2 class="section-title">Church Events</h2>
+                <!--/cms:events.header-->
                 <div class="section-divider">
                     <div class="section-divider-cross"></div>
                 </div>
             </div>
 
             <div class="events-list">
+                <!--cms:events.items-->
                 <div class="event-item reveal reveal-delay-1" data-weekday="0">
                     <div class="event-date">
                         <p class="event-month"></p>
@@ -2095,7 +2198,7 @@
                     </div>
                     <span class="event-time-badge">7:00 PM</span>
                 </div>
-
+                <!--/cms:events.items-->
             </div>
         </div>
     </section>
@@ -2104,14 +2207,17 @@
     <section class="gallery" id="gallery">
         <div class="container">
             <div class="section-header reveal">
+                <!--cms:media.header-->
                 <p class="section-label">Our Community</p>
                 <h2 class="section-title">Life at Snow Hill</h2>
+                <!--/cms:media.header-->
                 <div class="section-divider">
                     <div class="section-divider-cross"></div>
                 </div>
             </div>
 
             <div class="gallery-grid">
+                <!--cms:media.images-->
                 <div class="gallery-item reveal">
                     <img src="images/gallery/community-2.jpg" alt="Snow Hill MBC community">
                 </div>
@@ -2130,10 +2236,11 @@
                 <div class="gallery-item reveal reveal-delay-4">
                     <img src="images/gallery/community-7.jpg" alt="Snow Hill MBC community">
                 </div>
+                <!--/cms:media.images-->
             </div>
 
             <div class="gallery-cta reveal">
-                <a href="https://www.facebook.com/groups/137597172940164/media" target="_blank" rel="noopener">See More Photos on Facebook</a>
+                <!--cms:media.cta--><a href="https://www.facebook.com/groups/137597172940164/media" target="_blank" rel="noopener">See More Photos on Facebook</a><!--/cms:media.cta-->
             </div>
         </div>
     </section>
@@ -2216,7 +2323,7 @@
                         <div class="contact-icon">&#128337;</div>
                         <div>
                             <p class="contact-item-label">Service Hours</p>
-                            <p class="contact-item-value">Sunday School: 9:30 AM<br>Morning Worship: 11:00 AM<br>Wed Bible Study: 7:00 PM</p>
+                            <p class="contact-item-value"><!--cms:contact.hours-->Sunday School: 9:30 AM<br>Morning Worship: 11:00 AM<br>Wed Bible Study: 7:00 PM<!--/cms:contact.hours--></p>
                         </div>
                     </div>
 
@@ -2293,12 +2400,14 @@
             <div>
                 <h4>Quick Links</h4>
                 <ul class="footer-links">
+                    <!--cms:footer.links-->
                     <li><a href="#about">About Us</a></li>
                     <li><a href="#services">Service Times</a></li>
                     <li><a href="#pastor">Pastor's Message</a></li>
                     <li><a href="#events">Events</a></li>
                     <li><a href="#gallery">Gallery</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <!--/cms:footer.links-->
                 </ul>
             </div>
 
@@ -2307,9 +2416,11 @@
                 <ul class="footer-links">
                     <li><a href="tel:9105254300">(910) 525-4300</a></li>
                     <li><a href="/cdn-cgi/l/email-protection#97fef9f1f8d7e4f9f8e0fffefbfbfaf5f4b9f4f8fa"><span class="__cf_email__" data-cfemail="86efe8e0e9c6f5e8e9f1eeefeaeaebe4e5a8e5e9eb">[email&#160;protected]</span></a></li>
+                    <!--cms:footer.hours-->
                     <li><a href="#services">Sun School — 9:30 AM</a></li>
                     <li><a href="#services">Worship — 11:00 AM</a></li>
                     <li><a href="#services">Wed Bible Study — 7:00 PM</a></li>
+                    <!--/cms:footer.hours-->
                 </ul>
                 <div class="social-links" style="margin-top:1.25rem">
                     <a href="https://www.facebook.com/groups/137597172940164" target="_blank" rel="noopener" class="social-link" aria-label="Facebook Group">f</a>

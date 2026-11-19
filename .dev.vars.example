@@ -1,0 +1,7 @@
+# Local preview settings. Copy to .dev.vars (git-ignored):  cp .dev.vars.example .dev.vars
+# Never set ADMIN_DEV in the Cloudflare dashboard.
+ADMIN_DEV=1
+
+# Role allowlist (comma separated). Placeholder addresses only.
+ADMIN_EMAILS=admin@snowhillmbc.example
+PASTOR_EMAILS=pastor@snowhillmbc.example

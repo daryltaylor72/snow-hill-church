@@ -1,0 +1,36 @@
+{
+  "header": {
+    "label": "Our Community",
+    "title": "Life at Snow Hill"
+  },
+  "images": [
+    {
+      "src": "images/gallery/community-2.jpg",
+      "alt": "Snow Hill MBC community"
+    },
+    {
+      "src": "images/gallery/community-3.jpg",
+      "alt": "Snow Hill MBC community"
+    },
+    {
+      "src": "images/gallery/community-4.jpg",
+      "alt": "Snow Hill MBC community"
+    },
+    {
+      "src": "images/gallery/community-5.jpg",
+      "alt": "Snow Hill MBC community"
+    },
+    {
+      "src": "images/gallery/community-6.jpg",
+      "alt": "Snow Hill MBC community"
+    },
+    {
+      "src": "images/gallery/community-7.jpg",
+      "alt": "Snow Hill MBC community"
+    }
+  ],
+  "more": {
+    "label": "See More Photos on Facebook",
+    "url": "https://www.facebook.com/groups/137597172940164/media"
+  }
+}

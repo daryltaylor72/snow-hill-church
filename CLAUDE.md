@@ -10,7 +10,9 @@ Static church website for Snow Hill Missionary Baptist Church, Roseboro, NC.
 - **Cloudflare account ID:** `e4ee87687ff09c05630246e23d2e9d7f`
 
 ## File structure
-- `index.html` — entire site (single-page, all CSS/JS inline)
+- `index.html` — entire site (single-page, all CSS/JS inline). Editable regions sit between `<!--cms:...-->` markers and are a baked copy of `content/*.json`
+- `content/*.json` — site content (home, services, events, staff, media, navigation). After a hand edit run `npm run bake`; `npm test` fails if `index.html` and the content files disagree
+- `admin/`, `cms/`, `functions/_middleware.js`, `functions/api/admin/` — site admin panel, PREVIEW ONLY and not deployed. See `ADMIN.md`. Local run: `npx wrangler pages dev . --port 8788`
 - `images/` — church photos (hero, gallery)
 - `functions/api/contact.js` — Cloudflare Pages Function for the contact form (uses Resend, API key set as `RESEND_API_KEY` secret in Cloudflare dashboard)
 

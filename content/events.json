@@ -1,0 +1,40 @@
+{
+  "header": {
+    "label": "Upcoming",
+    "title": "Church Events"
+  },
+  "items": [
+    {
+      "title": "Sunday Worship Service",
+      "desc": "Join us for praise, prayer, and the Word. All are welcome.",
+      "time": "11:00 AM",
+      "schedule": "weekly",
+      "weekday": "0",
+      "date": ""
+    },
+    {
+      "title": "Monday Night Prayer",
+      "desc": "Join us for a time of prayer and intercession together.",
+      "time": "6:30 – 7:00 PM",
+      "schedule": "weekly",
+      "weekday": "1",
+      "date": ""
+    },
+    {
+      "title": "Wednesday Outreach Class",
+      "desc": "Community outreach training and preparation.",
+      "time": "6:30 – 7:00 PM",
+      "schedule": "weekly",
+      "weekday": "3",
+      "date": ""
+    },
+    {
+      "title": "Wednesday Night Bible Study",
+      "desc": "Continuing our series on the Book of James — faith in action.",
+      "time": "7:00 PM",
+      "schedule": "weekly",
+      "weekday": "3",
+      "date": ""
+    }
+  ]
+}

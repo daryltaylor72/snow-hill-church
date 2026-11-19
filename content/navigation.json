@@ -1,0 +1,68 @@
+{
+  "brand": {
+    "text": "Snow Hill MBC"
+  },
+  "links": [
+    {
+      "label": "About",
+      "target": "#about",
+      "visible": "yes"
+    },
+    {
+      "label": "Services",
+      "target": "#services",
+      "visible": "yes"
+    },
+    {
+      "label": "Pastor",
+      "target": "#pastor",
+      "visible": "yes"
+    },
+    {
+      "label": "Events",
+      "target": "#events",
+      "visible": "yes"
+    },
+    {
+      "label": "Give",
+      "target": "#give",
+      "visible": "yes"
+    },
+    {
+      "label": "Gallery",
+      "target": "#gallery",
+      "visible": "yes"
+    },
+    {
+      "label": "Contact",
+      "target": "#contact",
+      "visible": "yes"
+    }
+  ],
+  "footer_links": [
+    {
+      "label": "About Us",
+      "target": "#about"
+    },
+    {
+      "label": "Service Times",
+      "target": "#services"
+    },
+    {
+      "label": "Pastor's Message",
+      "target": "#pastor"
+    },
+    {
+      "label": "Events",
+      "target": "#events"
+    },
+    {
+      "label": "Gallery",
+      "target": "#gallery"
+    },
+    {
+      "label": "Contact",
+      "target": "#contact"
+    }
+  ]
+}

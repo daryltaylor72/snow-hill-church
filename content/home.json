@@ -1,0 +1,57 @@
+{
+  "hero": {
+    "subtitle_top": "Welcome Home",
+    "title": "Snow Hill Missionary\nBaptist Church",
+    "location": "Roseboro, North Carolina",
+    "motto": "\"Adjust my life to Him\" — Luke 9:23–24",
+    "verse": "\"As for me and my household,\nwe will serve the Lord.\"\n— Joshua 24:15",
+    "cta_label": "Join Us This Sunday",
+    "cta_target": "#services",
+    "visit_label": "New Here? Plan Your Visit →",
+    "visit_target": "#about"
+  },
+  "announcement": {
+    "enabled": "no",
+    "heading": "",
+    "body": "",
+    "link_label": "",
+    "link_url": ""
+  },
+  "about": {
+    "label": "Our Story",
+    "title": "A Place of Faith,\nFamily & Fellowship",
+    "body": "Snow Hill Missionary Baptist Church has stood as a beacon of faith and fellowship in the heart of Roseboro, North Carolina for generations. Rooted in the rich traditions of the Baptist faith, our congregation is a family — bound together by love, service, and an unwavering commitment to God's Word.\n\nWe believe that the church is more than a building — it is the living body of Christ, called to serve our community with compassion, to worship with joy, and to grow together in grace. Whether you've been walking with Christ for decades or are taking your very first steps of faith, you will find a home here at Snow Hill.",
+    "image": "images/church-building.jpg",
+    "image_alt": "Snow Hill Missionary Baptist Church building"
+  },
+  "values": [
+    {
+      "title": "Faith",
+      "text": "Grounded in Scripture, guided by the Holy Spirit",
+      "verse": "\"Faith is the substance of things hoped for, the evidence of things not seen.\"",
+      "cite": "Hebrews 11:1"
+    },
+    {
+      "title": "Fellowship",
+      "text": "A family united in love and service",
+      "verse": "\"As iron sharpens iron, so one person sharpens another.\"",
+      "cite": "Proverbs 27:17"
+    },
+    {
+      "title": "Service",
+      "text": "Serving our community with Christ's compassion",
+      "verse": "\"Serve one another humbly in love.\"",
+      "cite": "Galatians 5:13"
+    },
+    {
+      "title": "Growth",
+      "text": "Growing deeper in faith, reaching further in love",
+      "verse": "\"Grow in the grace and knowledge of our Lord and Savior Jesus Christ.\"",
+      "cite": "2 Peter 3:18"
+    }
+  ],
+  "verse_banner": {
+    "text": "\"Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.\"",
+    "cite": "Galatians 6:9"
+  }
+}

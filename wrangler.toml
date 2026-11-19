@@ -1,0 +1,15 @@
+# LOCAL PREVIEW ONLY.
+# Gives `npx wrangler pages dev . --port 8788` a simulated KV store for admin
+# drafts, the audit log, uploads and the local "published" store. Data is kept
+# on disk under .wrangler/state (git-ignored). Nothing here touches a real
+# Cloudflare account.
+#
+# This file deliberately has NO `pages_build_output_dir`, so Cloudflare Pages
+# ignores it when building the live site: production bindings stay whatever is
+# set in the Pages dashboard. See ADMIN.md before changing that.
+name = "snow-hill-church"
+compatibility_date = "2024-11-01"
+
+[[kv_namespaces]]
+binding = "ADMIN_KV"
+id = "local-preview-only"
