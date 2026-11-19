@@ -23,6 +23,11 @@ const BLOCKED = [
     /^\/(tests|scripts|cms|content|snapshots)(\/|$)/i
 ];
 
+// The only exceptions to BLOCKED, and only on preview (non-production) hosts, where the
+// request has already passed previewGate. Exact normalized paths, never patterns.
+// Browser modules the admin page imports go here; they must hold no secrets or server code.
+export const PREVIEW_SERVABLE = Object.freeze(['/cms/schema.js']);
+
 export const isProductionHost = (request) =>
     PRODUCTION_HOSTS.includes(new URL(request.url).hostname.toLowerCase());
 
@@ -51,9 +56,18 @@ export function normalizePath(raw) {
     return ('/' + out.join('/')).toLowerCase();
 }
 
-export const isBlockedPath = (pathname) => {
+/** Normalized path if it is one of the PREVIEW_SERVABLE files, else null. */
+export const previewServablePath = (pathname) => {
     const path = normalizePath(pathname);
-    return path === null || BLOCKED.some((re) => re.test(path));
+    return path !== null && PREVIEW_SERVABLE.includes(path) ? path : null;
+};
+
+/** `production` defaults to true, so a caller that does not say which host it is on gets the strict answer. */
+export const isBlockedPath = (pathname, { production = true } = {}) => {
+    const path = normalizePath(pathname);
+    if (path === null) return true;
+    if (production !== true && PREVIEW_SERVABLE.includes(path)) return false;
+    return BLOCKED.some((re) => re.test(path));
 };
 
 export const isAdminPath = (pathname) => {

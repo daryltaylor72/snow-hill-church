@@ -7,7 +7,7 @@ import { hostAllowed, isDevMode, resolveIdentity } from '../cms/auth.js';
 import { renderSite } from '../cms/render.js';
 import { contentFor } from '../cms/workflow.js';
 import { buildContext, repoContent } from '../cms/context.js';
-import { badRequest, isAdminPath, normalizePath, isBlockedPath, isProductionHost, notFound, previewEnv, previewGate, withNoindex } from '../cms/preview.js';
+import { badRequest, isAdminPath, normalizePath, isBlockedPath, isProductionHost, notFound, previewEnv, previewGate, previewServablePath, withNoindex } from '../cms/preview.js';
 
 const page = (status, title, message) => new Response(
     `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">`
@@ -32,13 +32,22 @@ export async function onRequest(original) {
         if (early) return early;
     }
 
-    // Repo docs and source are never served, on any host.
-    if (isBlockedPath(url.pathname)) return withNoindex(notFound());
+    // Repo docs and source are never served, on any host. The one exception is the
+    // PREVIEW_SERVABLE list (browser modules the admin page imports), on preview hosts only.
+    if (isBlockedPath(url.pathname, { production })) return withNoindex(notFound());
 
     if (production) {
         // Production: the admin does not exist yet. Everything else is untouched.
         if (isAdminPath(url.pathname)) return notFound();
         return handle(original, original.env);
+    }
+
+    // An allowlisted source file is always fetched by its canonical path, so an encoded,
+    // mixed-case or dot-segment spelling can only ever return that same file.
+    const servable = previewServablePath(url.pathname);
+    if (servable) {
+        if (request.method !== 'GET' && request.method !== 'HEAD') return withNoindex(notFound());
+        return withNoindex(await original.env.ASSETS.fetch(new Request(new URL(servable, url.origin), { method: request.method })));
     }
 
     const response = await handle({ ...original, env: previewEnv(original.env) }, previewEnv(original.env));
