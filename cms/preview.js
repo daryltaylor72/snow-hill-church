@@ -107,8 +107,15 @@ export async function previewGate(request, now = Date.now()) {
 }
 
 /** Environment for a gated preview host: dev role switcher on, local publishing, memory storage if no KV. */
+// Google account allowed as admin on previews when ADMIN_EMAILS is not configured.
+export const PREVIEW_ADMIN_EMAIL = 'daryltaylor72@gmail.com';
+
 export function previewEnv(env = {}) {
-    return { ...env, ADMIN_DEV: '1', ADMIN_HOSTS: '', PUBLISH_MODE: 'local', ADMIN_KV: env.ADMIN_KV || sharedKV };
+    // Requests that arrive through Cloudflare Access use the signed-in email as identity
+    // (dev mode switches off for them, see cms/auth.js), so that email must be in the allowlist.
+    // Preview hosts only: production hosts never reach this function.
+    const adminEmails = String(env.ADMIN_EMAILS || '').trim() ? env.ADMIN_EMAILS : PREVIEW_ADMIN_EMAIL;
+    return { ...env, ADMIN_EMAILS: adminEmails, ADMIN_DEV: '1', ADMIN_HOSTS: '', PUBLISH_MODE: 'local', ADMIN_KV: env.ADMIN_KV || sharedKV };
 }
 
 export const notFound = () => plain(404, 'Not found');

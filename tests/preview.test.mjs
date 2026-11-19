@@ -119,3 +119,29 @@ test('public static paths still pass through on production', async () => {
         assert.equal(res.status, 200, p);
     }
 });
+
+import { existsSync, readFileSync } from 'node:fs';
+import { PREVIEW_ADMIN_EMAIL, previewEnv } from '../cms/preview.js';
+import { resolveIdentity } from '../cms/auth.js';
+
+test('preview env: Access email daryltaylor72@gmail.com is admin, unknown email has no role', async () => {
+    const env = previewEnv({});
+    assert.equal(PREVIEW_ADMIN_EMAIL, 'daryltaylor72@gmail.com');
+    const via = (email) => resolveIdentity(new Request('https://x.pages.dev/admin/', { headers: { 'cf-access-authenticated-user-email': email } }), env);
+    assert.deepEqual(await via('daryltaylor72@gmail.com'), { email: 'daryltaylor72@gmail.com', role: 'admin', dev: false });
+    assert.equal((await via('Stranger@example.com')).role, null);
+    // an explicitly configured allowlist is not overridden
+    assert.equal(previewEnv({ ADMIN_EMAILS: 'a@b.c' }).ADMIN_EMAILS, 'a@b.c');
+});
+
+const CREDS = '/workspace/deploy-proofs/snowhill-preview-credentials.txt';
+test('middleware on a preview host: valid Basic Auth + Access email gets admin; unknown email gets no-access', { skip: !existsSync(CREDS) }, async () => {
+    const pw = readFileSync(CREDS, 'utf8').match(/^password:\s*(.+)$/mi)[1].trim();
+    const basic = 'Basic ' + Buffer.from(`daryl:${pw}`).toString('base64');
+    const go = (email) => run('https://x.pages.dev/admin/', { authorization: basic, 'cf-access-authenticated-user-email': email });
+    assert.equal((await go('daryltaylor72@gmail.com')).status, 200);
+    assert.equal((await go('stranger@example.com')).status, 403);
+    // production hosts stay 404 regardless
+    const prod = await run('https://snowhillmbc.com/admin/', { authorization: basic, 'cf-access-authenticated-user-email': 'daryltaylor72@gmail.com' });
+    assert.equal(prod.status, 404);
+});
