@@ -1,14 +1,9 @@
 // Builds the workflow context for Pages Functions (see cms/workflow.js).
 // Only the Functions import this file; tests build their own context.
-import home from '../content/home.json' with { type: 'json' };
-import services from '../content/services.json' with { type: 'json' };
-import events from '../content/events.json' with { type: 'json' };
-import staff from '../content/staff.json' with { type: 'json' };
-import media from '../content/media.json' with { type: 'json' };
-import navigation from '../content/navigation.json' with { type: 'json' };
+import { home, services, events, staff, media, navigation } from './content-data.js';
 import { selectPublisher } from './publisher.js';
 
-// content/*.json is bundled with the Functions at deploy time, so the site and
+// content/*.json is bundled (via the generated ./content-data.js, see scripts/gen-content-data.mjs) with the Functions at deploy time, so the site and
 // the admin always read the same files that are in the repository.
 export const repoContent = { home, services, events, staff, media, navigation };
 
