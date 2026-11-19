@@ -24,3 +24,6 @@ Static church website for Snow Hill Missionary Baptist Church, Roseboro, NC.
 - The live site has been ahead of the repo before — if the live site and local file differ, download the live version first: `curl -s https://snowhillmbc.com > index.html`
 - Contact form emails go to `info@snowhillmbc.com` via Resend
 - Nav links: About, Services, Pastor, Events, Give, Gallery, Contact
+
+## Deploy note
+Repo-only files (CLAUDE.md, .gitignore, snapshots/README.md) are removed from the Cloudflare Pages build output by the project build command `rm -f CLAUDE.md .gitignore snapshots/README.md`, so they are not served publicly. Add any new repo-only file to that command.
